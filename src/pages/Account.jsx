@@ -1,88 +1,102 @@
-import toast from "react-hot-toast";
-import { useAuth } from "../context/UserContext";
-import { Link } from "react-router-dom";
+import React from "react";
+import { motion } from "framer-motion";
+
+// Mock user data
+const mockUser = {
+  firstName: "VLAD",
+  email: "test@diana.com",
+  phoneNumber: "N/A",
+  defaultDeliveryAddress: "N/A",
+  profilePicture: null,
+};
 
 export default function Account() {
-  const { user, logout } = useAuth();
+  const user = mockUser;
+
+  const handleEditProfile = () => {
+    console.log("Edit profile clicked");
+  };
+
   const handleLogout = () => {
-    logout();
-    toast.success("Logged out successfully");
+    console.log("Logged out");
   };
 
   return (
-    <div className="min-h-screen bg-white px-6 py-12 flex flex-col items-center">
-      <h1 className="text-5xl font-extralight tracking-wide text-gray-900 mb-4">
-        ACCOUNT
-      </h1>
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
+      className="min-h-screen bg-white text-black px-6 flex items-center justify-center"
+    >
+      <div className="flex flex-col lg:flex-row max-w-7xl w-full gap-16">
+        {/* LEFT: Text */}
+        <motion.div
+          className="flex-1 flex flex-col justify-between"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+        >
+          <div>
+            <h1 className="text-9xl font-light tracking-wide text-gray-900 leading-none mb-3">
+              {user.firstName}
+            </h1>
 
-      <button
-        onClick={handleLogout}
-        className="text-sm text-black underline hover:text-gray-800 mb-12 transition cursor-pointer"
-      >
-        Log out
-      </button>
+            <p className="text-lg text-gray-600 mb-10 leading-relaxed max-w-md">
+              Welcome to your coffee sanctuary. Track your exclusive drops,
+              manage your profile, and stay connected to the community.
+            </p>
 
-      {/* Account Details Section */}
-      <div className="w-full max-w-3xl space-y-12">
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-          <h2 className="text-2xl font-light text-gray-900 mb-6">
-            Account Details
-          </h2>
-
-          <div className="space-y-2 text-gray-800 text-sm">
-            <p>
-              <span className="font-medium">Name:</span> {user.firstName}{" "}
-              {user.lastName}
-            </p>
-            <p>
-              <span className="font-medium">Email:</span> {user.email}
-            </p>
-            <p>
-              <span className="font-medium">Phone:</span>{" "}
-              {user.phoneNumber || "N/A"}
-            </p>
-            <p>
-              <span className="font-medium">Delivery Address:</span>{" "}
-              {user.defaultDeliveryAddress?.street || "N/A"}
-            </p>
-            <p>
-              <span className="font-medium">Billing Address:</span>{" "}
-              {user.defaultBillingAddress?.street || "N/A"}
-            </p>
-            <p>
-              <span className="font-medium">Role:</span> {user.role || "N/A"}
-            </p>
+            <div className="space-y-4 text-sm">
+              <div className="flex items-start space-x-3">
+                <span className="text-gray-400 w-16">Email</span>
+                <span className="text-gray-700">{user.email}</span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-gray-400 w-16">Phone</span>
+                <span className="text-gray-700">{user.phoneNumber}</span>
+              </div>
+              <div className="flex items-start space-x-3">
+                <span className="text-gray-400 w-16">Address</span>
+                <span className="text-gray-700">
+                  {user.defaultDeliveryAddress}
+                </span>
+              </div>
+            </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex gap-4 mt-6">
-            <Link
-              to="/edit-user"
-              className="px-4 py-2 border border-black text-black text-sm rounded-xs hover:bg-black hover:text-white transition"
-            >
-              Edit Details
-            </Link>
+          <div className="mt-10 flex space-x-6 text-xs tracking-wide">
             <button
-              onClick={() => alert("Password change modal TBD")}
-              className="px-4 py-2 border border-black text-black text-sm rounded-xs hover:bg-black hover:text-white transition"
+              onClick={handleEditProfile}
+              className="text-gray-700 text-lg hover:text-black underline underline-offset-4 decoration-[1px] transition-all duration-200 cursor-pointer"
             >
-              Change Password
+              Edit Profile
+            </button>
+            <button
+              onClick={handleLogout}
+              className="text-gray-700 text-lg hover:text-black underline underline-offset-4 decoration-[1px] transition-all duration-200 cursor-pointer"
+            >
+              Log Out
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Order History Section */}
-        <div className="bg-gray-50 p-6 rounded-lg shadow-sm">
-          <h2 className="text-2xl font-light text-gray-900 mb-6">
-            Order History
-          </h2>
-
-          {/* Example static message for now */}
-          <p className="text-sm text-gray-500 italic">
-            You haven’t placed any orders yet.
-          </p>
-        </div>
+        {/* RIGHT: Image */}
+        <motion.div
+          className="flex-1 flex justify-center"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+        >
+          <div className="w-[600px] h-[550px]">
+            <img
+              src="/oricand-drop-1.jpg"
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 }

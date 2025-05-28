@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { useAuth } from "../context/UserContext";
+import { useLocation } from "react-router-dom";
 
 export default function SidebarHeader() {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
   const { user } = useAuth();
+  const location = useLocation();
+  const isDark = location.pathname === "/";
 
   useEffect(() => {
     const handleEsc = (e) => e.key === "Escape" && setIsOpen(false);
@@ -16,13 +18,16 @@ export default function SidebarHeader() {
 
   return (
     <>
-      {/* Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed top-6 right-6 z-[60] text-white text-2xl focus:outline-none cursor-pointer transition-transform transform hover:scale-110"
+        className={`fixed top-6 right-6 z-[60] text-2xl focus:outline-none cursor-pointer transition-transform transform hover:scale-110 ${
+          isDark
+            ? `${isOpen ? "text-black" : "text-white"}`
+            : `${isOpen ? "text-white" : "text-black"}`
+        }`}
         aria-label="Toggle Menu"
       >
-        {isOpen ? "✕" : "☰"}
+        ☰
       </button>
 
       {/* Slide-in Menu */}

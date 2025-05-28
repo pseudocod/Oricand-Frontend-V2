@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -44,87 +46,51 @@ export default function Register() {
 
         <div className="w-full max-w-md">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="firstName"
-                className="text-base font-medium text-gray-700"
-              >
-                First Name
-              </label>
-              <input
+            <FormInput
+              label="First Name"
                 id="firstName"
                 name="firstName"
                 value={data.firstName}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
-              />
-            </div>
+            />
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="lastName"
-                className="text-base font-medium text-gray-700"
-              >
-                Last Name
-              </label>
-              <input
+            <FormInput
+              label="Last Name"
                 id="lastName"
                 name="lastName"
                 value={data.lastName}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
-              />
-            </div>
+            />
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="email"
-                className="text-base font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <input
+            <FormInput
+              label="Email address"
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="email"
                 value={data.email}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
+              autoComplete="email"
               />
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="password"
-                className="text-base font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
+            <FormInput
+              label="Password"
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="new-password"
                 value={data.password}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
+              autoComplete="new-password"
               />
-            </div>
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 px-4 bg-black text-white font-medium rounded-xs hover:bg-white hover:text-black transition-all duration-500 cursor-pointer"
-            >
-              {loading ? "CREATING ACCOUNT..." : "REGISTER"}
-            </button>
+            <FormButton loading={loading} loadingText="CREATING ACCOUNT...">
+              REGISTER
+            </FormButton>
           </form>
 
           <div className="text-center mt-4">

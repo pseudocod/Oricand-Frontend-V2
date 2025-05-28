@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
+import FormInput from "../components/FormInput";
+import FormButton from "../components/FormButton";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,53 +40,33 @@ export default function Login() {
 
         <div className="w-full max-w-md">
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="email"
-                className="text-base font-medium text-gray-700"
-              >
-                Email address
-              </label>
-              <input
+            <FormInput
+              label="Email address"
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="email"
                 value={data.email}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
+              autoComplete="email"
               />
-            </div>
 
-            <div className="flex flex-col gap-1">
-              <label
-                htmlFor="password"
-                className="text-base font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
+            <FormInput
+              label="Password"
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="current-password"
                 value={data.password}
                 onChange={handleChange}
                 required
-                className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
+              autoComplete="current-password"
               />
-            </div>
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-2 px-4 bg-black text-white font-medium rounded-xs hover:bg-white hover:text-black transition-all duration-500 cursor-pointer"
-            >
-              {loading ? "SIGNING IN..." : "SIGN IN"}
-            </button>
+            <FormButton loading={loading} loadingText="SIGNING IN...">
+              SIGN IN
+            </FormButton>
           </form>
 
           <div className="text-center mt-4 text-sm text-gray-600">

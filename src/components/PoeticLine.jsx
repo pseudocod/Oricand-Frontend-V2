@@ -1,7 +1,7 @@
 // components/PoeticLine.jsx
 import { motion } from "framer-motion";
 
-export default function PoeticLine({ text }) {
+export default function PoeticLine() {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -10,9 +10,6 @@ export default function PoeticLine({ text }) {
       viewport={{ once: true }}
       className="py-24 px-6 text-center"
     >
-      <p className="text-neutral-500 text-xl italic font-playfair max-w-xl mx-auto">
-        {/* {text} */}
-      </p>
     </motion.div>
   );
 }

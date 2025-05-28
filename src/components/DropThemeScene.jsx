@@ -62,7 +62,7 @@ export default function DropThemeScene({
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5, duration: 0.8, ease: "easeOut" }}
+          transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
           className="mt-6"
         >
           <Link

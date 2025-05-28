@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import Register from "../pages/Register";
@@ -11,18 +11,23 @@ import AttributeTypeAdmin from "../pages/admin/AttributeTypeAdmin";
 import SelectedAttributeAdmin from "../pages/admin/SelectedAttributeAdmin";
 import CategoryAdmin from "../pages/admin/CategoryAdmin";
 import DashboardAdmin from "../pages/admin/DashboardAdmin";
+import PageWrapper from "../components/PageWrapper";
 
 export default function AppRoutes() {
+  const location = useLocation();
+
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+      <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+      <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
       <Route
         path="/account"
         element={
           <ProtectedRoute>
-            <Account />
+            <PageWrapper>
+              <Account />
+            </PageWrapper>
           </ProtectedRoute>
         }
       />
@@ -30,7 +35,9 @@ export default function AppRoutes() {
         path="/admin"
         element={
           <AdminRoute>
-            <DashboardAdmin />
+            <PageWrapper>
+              <DashboardAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />
@@ -38,7 +45,9 @@ export default function AppRoutes() {
         path="/admin/products"
         element={
           <AdminRoute>
-            <ProductAdmin />
+            <PageWrapper>
+              <ProductAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />
@@ -46,7 +55,9 @@ export default function AppRoutes() {
         path="/admin/attribute-options"
         element={
           <AdminRoute>
-            <AttributeOptionAdmin />
+            <PageWrapper>
+              <AttributeOptionAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />
@@ -54,7 +65,9 @@ export default function AppRoutes() {
         path="/admin/attribute-types"
         element={
           <AdminRoute>
-            <AttributeTypeAdmin />
+            <PageWrapper>
+              <AttributeTypeAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />
@@ -63,7 +76,9 @@ export default function AppRoutes() {
         path="/admin/selected-attributes"
         element={
           <AdminRoute>
-            <SelectedAttributeAdmin />
+            <PageWrapper>
+              <SelectedAttributeAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />
@@ -72,7 +87,9 @@ export default function AppRoutes() {
         path="/admin/categories"
         element={
           <AdminRoute>
-            <CategoryAdmin />
+            <PageWrapper>
+              <CategoryAdmin />
+            </PageWrapper>
           </AdminRoute>
         }
       />

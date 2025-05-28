@@ -9,7 +9,6 @@ import { drops } from "../data/drops";
 export default function Home() {
   return (
     <>
-      <SidebarHeader />
 
       <HeroSection />
       <Marquee />
@@ -27,26 +26,9 @@ export default function Home() {
             ctaText={drop.ctaText}
             imageSrc={drop.imageSrc}
           />
-
-          {/* <DropSection
-            title={drop.title}
-            subtitle={drop.label}
-            description={drop.description}
-            imageSrc={drop.imageSrc}
-            flip={i % 2 === 1}
-          /> */}
-          <PoeticLine text="crafted in passing moments" />
+          <PoeticLine />
         </div>
       ))}
-
-      {/* <PoeticLine text="Brewed in minor key." /> */}
-
-      <Footer />
-      {/* <HeroSection /> */}
-      {/* <ManifestoSection /> */}
-      {/* <DropTeaser /> */}
-      {/* <MoodVideoSection /> */}
-      {/* <Footer /> */}
     </>
   );
 }
