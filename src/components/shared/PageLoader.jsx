@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { LoadingSpinner } from './LoadingSpinner';
+import LoadingSpinner from './LoadingSpinner';
 
 export function PageLoader({ children, fallback }) {
   return (

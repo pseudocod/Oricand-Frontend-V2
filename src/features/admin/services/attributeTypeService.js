@@ -1,4 +1,4 @@
-import axios from "./axiosInstance";
+import axios from "@/features/auth/services/axiosInstance";
 
 export async function fetchAttributeTypes() {
   const res = await axios.get("/attribute-types");

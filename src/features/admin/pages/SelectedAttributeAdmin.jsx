@@ -4,15 +4,15 @@ import {
   createSelectedAttribute,
   updateSelectedAttribute,
   deleteSelectedAttribute,
-} from "../../services/selectedAttributeService";
-import { fetchAttributeTypes } from "../../services/attributeTypeService";
-import { fetchAttributeOptions } from "../../services/attributeOptionService";
-import { useAuth } from "../../context/UserContext";
+} from "@/features/admin/services";
+import { fetchAttributeTypes } from "@/features/admin/services/attributeTypeService";
+import { fetchAttributeOptions } from "@/features/admin/services/attributeOptionService";
+import { useAuth } from "@/features/auth/context/UserContext";
 import toast from "react-hot-toast";
 
-import SelectedAttributeForm from "../../components/admin/forms/SelectedAttributeForm";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import AdminRow from "../../components/admin/rows/AdminRow";
+import SelectedAttributeForm from "@/features/admin/components/forms/SelectedAttributeForm";
+import { ConfirmDialog } from "@/components/shared/modal";
+import AdminRow from "@/features/admin/components/rows/AdminRow";
 
 export default function SelectedAttributeAdmin() {
   const { token } = useAuth();

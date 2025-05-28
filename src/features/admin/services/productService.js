@@ -1,24 +1,24 @@
-import axios from "./axiosInstance";
-import { API_ENDPOINTS, UPLOAD_CONFIG } from "../config/constants";
+import { axiosInstance as axios } from "@/utils/api";
+import { API_ENDPOINTS, UPLOAD_CONFIG } from "@/config/constants";
 
 export const fetchAllProducts = async () => {
   const response = await axios.get(API_ENDPOINTS.PRODUCTS.BASE);
-  return response;
+  return response.data;
 };
 
 export const fetchProductById = async (id) => {
   const response = await axios.get(`${API_ENDPOINTS.PRODUCTS.BASE}/${id}`);
-  return response;
+  return response.data;
 };
 
 export const createProduct = async (productData) => {
   const response = await axios.post(API_ENDPOINTS.PRODUCTS.BASE, productData);
-  return response;
+  return response.data;
 };
 
 export const updateProduct = async (id, productData) => {
   const response = await axios.put(`${API_ENDPOINTS.PRODUCTS.BASE}/${id}`, productData);
-  return response;
+  return response.data;
 };
 
 export const deleteProduct = async (id) => {

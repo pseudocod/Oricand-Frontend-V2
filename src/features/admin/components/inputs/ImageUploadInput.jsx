@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { uploadProductImages } from "../../../services/productService";
+import { uploadProductImages } from "@/features/admin/services";
 import toast from "react-hot-toast";
 
 export default function ImageUploadInput({ productId, onUploadComplete }) {

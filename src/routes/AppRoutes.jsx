@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
+import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import MainLayout from "@components/layout/MainLayout";
 import { adminRoutes } from "@features/admin/routes";
 import { authRoutes } from "@features/auth/routes";

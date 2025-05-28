@@ -1,3 +1,12 @@
+// Public Pages
+export * from './pages';
+
+// Public Services
+export * from './services';
+
+// Routes (if needed by the main app router)
+export { default as AdminRoutes } from './routes';
+
 // Pages
 export { default as DashboardAdmin } from './pages/DashboardAdmin';
 export { default as ProductAdmin } from './pages/ProductAdmin';

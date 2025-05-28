@@ -1,4 +1,4 @@
-import axios from "./axiosInstance";
+import axios from "@/features/auth/services/axiosInstance";
 
 const API_URL = "/attribute-options";
 

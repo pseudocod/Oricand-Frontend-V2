@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { useImageLazyLoad } from '../../hooks/useImageLazyLoad';
+import { useImageLazyLoad } from '@/hooks/ui/useImageLazyLoad';
 
 const LazyImage = ({
   src,

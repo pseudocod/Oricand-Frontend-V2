@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-export const LoadingSpinner = ({ size = "md", className = "" }) => {
+const LoadingSpinner = ({ size = "md", className = "" }) => {
   const sizes = {
     sm: "w-4 h-4",
     md: "w-6 h-6",
@@ -22,6 +22,8 @@ export const LoadingSpinner = ({ size = "md", className = "" }) => {
     </div>
   );
 };
+
+export default LoadingSpinner;
 
 export const LoadingOverlay = ({ children, loading, className = "" }) => {
   if (!loading) return children;

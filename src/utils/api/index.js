@@ -1,4 +1,3 @@
-export { default as axiosInstance } from './axiosInstance';
+export { default as axiosInstance, handleApiResponse, handleFileUpload } from './axiosInstance';
 export * from './apiUtils';
-export { default as useApi } from './useApi';
-export { default as axiosConfig } from './axiosConfig'; 
+export { default as useApi } from './useApi'; 

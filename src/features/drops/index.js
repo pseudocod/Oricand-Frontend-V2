@@ -1,5 +1,5 @@
 // Components
-export { default as DropThemeScene } from './components/DropThemeScene';
+export * from './components';
 
 // Data
-export { drops } from './data/drops'; 
+export * from './data'; 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { LazyImage } from '@/components/shared';
 
-export const ProductImageGallery = ({ images, onFeatureImage }) => {
+const ProductImageGallery = ({ images, onFeatureImage }) => {
   const [selectedImage, setSelectedImage] = useState(images[0] || null);
 
   const handleImageClick = (image) => {
@@ -64,4 +64,6 @@ export const ProductImageGallery = ({ images, onFeatureImage }) => {
       </div>
     </div>
   );
-}; 
+};
+
+export default ProductImageGallery; 

@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { LoadingSpinner } from "@components/shared/LoadingSpinner";
+import LoadingSpinner from "@/components/shared/LoadingSpinner";
 import { useAuth } from "@/features/auth/context/UserContext";
 
 const AdminRoute = () => {

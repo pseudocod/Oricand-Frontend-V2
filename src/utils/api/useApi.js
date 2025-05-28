@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
-import { handleApiResponse } from '../services/axiosInstance';
+import { handleApiResponse } from './axiosInstance';
 
-export const useApi = (apiFunction) => {
+const useApi = (apiFunction) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -32,6 +32,8 @@ export const useApi = (apiFunction) => {
     setError,
   };
 };
+
+export default useApi;
 
 // Example usage:
 /*

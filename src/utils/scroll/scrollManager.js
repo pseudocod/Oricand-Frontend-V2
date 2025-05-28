@@ -1,7 +1,6 @@
 const SCROLL_POSITIONS = new Map();
 
 export const scrollManager = {
-  // Save scroll position for a specific route
   savePosition: (key) => {
     SCROLL_POSITIONS.set(key, {
       x: window.scrollX,
@@ -10,7 +9,6 @@ export const scrollManager = {
     });
   },
 
-  // Restore scroll position for a specific route
   restorePosition: (key, smooth = true) => {
     const position = SCROLL_POSITIONS.get(key);
     if (!position) return;
@@ -56,5 +54,4 @@ export const scrollManager = {
   }
 };
 
-// Clean up old scroll positions every 30 minutes
 setInterval(scrollManager.cleanup, 30 * 60 * 1000);

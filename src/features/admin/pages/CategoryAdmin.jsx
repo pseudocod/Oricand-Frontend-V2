@@ -5,11 +5,10 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
-} from "../../services/categoryService";
-import CategoryForm from "../../components/admin/forms/CategoryForm";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import AdminRow from "../../components/admin/rows/AdminRow";
-import CategoryRow from "../../components/admin/rows/CategoryRow";
+} from "@/features/admin/services";
+import CategoryForm from "@/features/admin/components/forms/CategoryForm";
+import { ConfirmDialog } from "@/components/shared/modal";
+import CategoryRow from "@/features/admin/components/rows/CategoryRow";
 
 export default function CategoryAdmin() {
   const [categories, setCategories] = useState([]);

@@ -6,10 +6,10 @@ import {
   deleteAttributeOption,
 } from "../../services/attributeOptionService";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/UserContext";
-import AttributeOptionForm from "../../components/admin/forms/AttributeOptionForm";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
-import AdminRow from "../../components/admin/rows/AdminRow";
+import { useAuth } from "@/features/auth/context/UserContext";
+import AttributeOptionForm from "@/features/admin/components/forms/AttributeOptionForm";
+import { ConfirmDialog } from "@/components/shared/modal";
+import AdminRow from "@/features/admin/components/rows/AdminRow";
 
 export default function AttributeOptionAdmin() {
   const { token } = useAuth();

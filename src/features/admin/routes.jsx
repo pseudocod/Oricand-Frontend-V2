@@ -2,12 +2,12 @@ import { lazy } from 'react';
 import AdminRoute from '@/routes/AdminRoute';
 
 const AdminPages = {
-  Dashboard: lazy(() => import('./pages/DashboardAdmin')),
-  Products: lazy(() => import('./pages/ProductAdmin')),
-  AttributeOptions: lazy(() => import('./pages/AttributeOptionAdmin')),
-  AttributeTypes: lazy(() => import('./pages/AttributeTypeAdmin')),
-  SelectedAttributes: lazy(() => import('./pages/SelectedAttributeAdmin')),
-  Categories: lazy(() => import('./pages/CategoryAdmin')),
+  Dashboard: lazy(() => import('@/features/admin/pages/DashboardAdmin')),
+  Products: lazy(() => import('@/features/admin/pages/ProductAdmin')),
+  AttributeOptions: lazy(() => import('@/features/admin/pages/AttributeOptionAdmin')),
+  AttributeTypes: lazy(() => import('@/features/admin/pages/AttributeTypeAdmin')),
+  SelectedAttributes: lazy(() => import('@/features/admin/pages/SelectedAttributeAdmin')),
+  Categories: lazy(() => import('@/features/admin/pages/CategoryAdmin')),
 };
 
 export const adminRoutes = {

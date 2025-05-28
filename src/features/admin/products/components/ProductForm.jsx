@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { fetchAllCategories } from "../../../services/categoryService";
-import { fetchSelectedAttributes } from "../../../services/selectedAttributeService";
+import { fetchAllCategories, fetchSelectedAttributes } from "@/features/admin/services";
 
 export default function ProductForm({ onSubmit, editingItem, onCancel }) {
   const [data, setData] = useState({

@@ -1,8 +1,79 @@
-import { useState, useEffect, useContext } from "react";
-import { authService } from "../services/authService";
-import storage from "@/utils/storage/storage";
-import { USER_STORAGE_KEY, TOKEN_STORAGE_KEY } from "./constants";
-import { UserContext } from "./context";
+import { createContext, useContext, useState, useEffect } from "react";
+import { loginUser, registerUser, getStoredUser, getStoredToken, storeUserData, clearUserData } from "../services/authService";
+import { useNavigate } from "react-router-dom";
+
+const UserContext = createContext();
+
+export const UserProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  // Initialize auth state from localStorage
+  useEffect(() => {
+    const storedUser = getStoredUser();
+    const storedToken = getStoredToken();
+    
+    if (storedUser && storedToken) {
+      setUser(storedUser);
+      setToken(storedToken);
+    }
+    
+    setLoading(false);
+  }, []);
+
+  const login = async (email, password) => {
+    try {
+      const response = await loginUser(email, password);
+      setUser(response.user);
+      setToken(response.token);
+      storeUserData(response.user, response.token);
+      navigate('/');
+      return response;
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      const response = await registerUser(userData);
+      setUser(response.user);
+      setToken(response.token);
+      storeUserData(response.user, response.token);
+      navigate('/');
+      return response;
+    } catch (error) {
+      console.error('Registration failed:', error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    setToken(null);
+    clearUserData();
+    navigate('/login');
+  };
+
+  const value = {
+    user,
+    token,
+    loading,
+    login,
+    register,
+    logout,
+    isAuthenticated: !!token
+  };
+
+  return (
+    <UserContext.Provider value={value}>
+      {!loading && children}
+    </UserContext.Provider>
+  );
+};
 
 export const useAuth = () => {
   const context = useContext(UserContext);
@@ -10,49 +81,4 @@ export const useAuth = () => {
     throw new Error('useAuth must be used within a UserProvider');
   }
   return context;
-};
-
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); 
-
-  useEffect(() => {
-    const storedUser = storage.get(USER_STORAGE_KEY);
-    const storedToken = storage.get(TOKEN_STORAGE_KEY);
-    if (storedUser && storedToken) {
-      setUser(storedUser);
-      setToken(storedToken);
-    }
-    setLoading(false);
-  }, []);
-
-  const login = async (email, password) => {
-    const res = await authService.login(email, password);
-    setUser(res.user);
-    setToken(res.token);
-    storage.set(USER_STORAGE_KEY, res.user);
-    storage.set(TOKEN_STORAGE_KEY, res.token);
-  };
-
-  const register = async (data) => {
-    const res = await authService.register(data);
-    setUser(res.user);
-    setToken(res.token);
-    storage.set(USER_STORAGE_KEY, res.user);
-    storage.set(TOKEN_STORAGE_KEY, res.token);
-  };
-
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    storage.remove(USER_STORAGE_KEY);
-    storage.remove(TOKEN_STORAGE_KEY);
-  };
-
-  return (
-    <UserContext.Provider value={{ user, token, login, register, logout, loading }}>
-      {children}
-    </UserContext.Provider>
-  );
 };

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import ProductForm from "../../components/admin/forms/ProductForm";
-import ProductCard from "../../components/admin/cards/ProductCard";
-import ConfirmDialog from "../../components/ui/ConfirmDialog";
+import { ProductForm } from "@/features/admin/products/components";
+import { ProductCard } from "@/features/admin/components/cards";
+import { ConfirmDialog } from "@/components/shared/modal";
 import {
   fetchAllProducts,
   deleteProduct,
   updateProduct,
-  createProduct,
-} from "../../services/productService";
+  createProduct
+} from "@/features/admin/services";
 
 export default function ProductAdmin() {
   const [products, setProducts] = useState([]);
