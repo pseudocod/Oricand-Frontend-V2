@@ -1,16 +1,23 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/UserContext";
-import FullPageLoader from "../components/ui/FullPageLoader";
+import { Navigate, Outlet } from "react-router-dom";
+import { LoadingSpinner } from "@components/shared/LoadingSpinner";
+import { useAuth } from "@/features/auth/context/UserContext";
 
-export default function AdminRoute({ children }) {
+const AdminRoute = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <FullPageLoader />;
-  }
-  if (!user || user.role !== "ROLE_ADMIN") {
-    return <Navigate to="/" />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="xl" />
+      </div>
+    );
   }
 
-  return children;
-}
+  if (!user || user.role !== "ROLE_ADMIN") {
+    return <Navigate to="/" replace />;
+  }
+
+  return <Outlet />;
+};
+
+export default AdminRoute;

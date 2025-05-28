@@ -1,17 +1,23 @@
-import { Navigate } from "react-router-dom";
-import FullPageLoader from "../components/ui/FullPageLoader";
-import { useAuth } from "../context/UserContext";
+import { Navigate, Outlet } from "react-router-dom";
+import { LoadingSpinner } from "@components/shared/LoadingSpinner";
+import { useAuth } from "@/features/auth/context/UserContext";
 
-export default function ProtectedRoute({ children }) {
+const ProtectedRoute = () => {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <FullPageLoader />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="xl" />
+      </div>
+    );
   }
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  return children;
-}
+  return <Outlet />;
+};
+
+export default ProtectedRoute;

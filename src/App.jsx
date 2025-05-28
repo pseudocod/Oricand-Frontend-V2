@@ -1,25 +1,32 @@
 import { BrowserRouter } from "react-router-dom";
-import AppRoutes from "./routes/AppRoutes";
 import { Toaster } from "react-hot-toast";
-import Lenis from "lenis";
-import { useEffect } from "react";
+import { AppRoutes } from "@/routes";
+import { ErrorBoundary } from "@/components/shared/ErrorBoundary";
+import { PageLoader } from "@/components/shared/PageLoader";
+import { useSmoothScroll } from "@/hooks/interaction/useSmoothScroll";
+import "@ant-design/v5-patch-for-react-19";
+
 function App() {
-  useEffect(() => {
-    const lenis = new Lenis();
-
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-  }, []);
+  useSmoothScroll();
 
   return (
-    <BrowserRouter>
-      <AppRoutes />
-      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <PageLoader>
+          <AppRoutes />
+        </PageLoader>
+        <Toaster 
+          position="top-center" 
+          toastOptions={{ 
+            duration: parseInt(import.meta.env.VITE_TOAST_DURATION || 2000),
+            style: {
+              background: '#333',
+              color: '#fff',
+            },
+          }} 
+        />
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
