@@ -57,21 +57,25 @@ export default function ProductPage() {
       )}
 
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row items-center justify-between gap-12 px-6 md:px-32 pt-20 pb-10 max-w-7xl mx-auto">
+      <section className="flex flex-col md:flex-row items-center justify-between gap-12 px-6 md:pl-32 md:pr-0 pt-20 pb-10 max-w-6xl mx-auto">
+        {/* LEFT (Text + Button) */}
         <motion.div
           initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2, duration: 1 }}
-          className="flex-1"
+          className="basis-full md:basis-1/2 min-w-0 flex flex-col justify-center items-center md:items-start text-center md:text-left"
         >
-          <h1 className="text-5xl md:text-7xl font-light tracking-wide uppercase mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-wide uppercase mb-4 break-words">
             {product.name}
           </h1>
-          <p className="text-lg md:text-xl leading-relaxed text-gray-700 max-w-lg">
+          <p className="text-base sm:text-lg md:text-xl leading-relaxed text-gray-700 max-w-md">
             {firstLine}
           </p>
-          <div ref={addToCartRef} className="mt-8 mb-12 w-full max-w-lg">
-            <div className="flex items-center gap-10">
+          <div
+            ref={addToCartRef}
+            className="mt-8 mb-12 w-full max-w-xs sm:max-w-sm md:max-w-lg"
+          >
+            <div className="flex items-center justify-center md:justify-start gap-6 flex-wrap">
               <div className="flex items-center border border-black rounded px-2 py-1">
                 <button
                   className="text-xl font-medium px-2 cursor-pointer"
@@ -88,7 +92,6 @@ export default function ProductPage() {
                 </button>
               </div>
 
-              {/* Add to Cart Button */}
               <button
                 className="bg-black text-white text-sm font-bold uppercase tracking-widest px-6 py-2 rounded cursor-pointer hover:bg-gray-800 transition-all"
                 onClick={() => console.log("Add to cart", quantity)}
@@ -99,22 +102,22 @@ export default function ProductPage() {
           </div>
         </motion.div>
 
+        {/* RIGHT (Image) */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeInOut" }}
-          className="flex-1 w-full h-auto"
+          className="basis-full md:basis-1/2 min-w-0 flex items-center justify-center"
         >
           <img
             src={`http://localhost:8080${featuredImage.url}`}
             alt={product.name}
-            className="w-full h-auto max-h-[500px] object-contain rounded-lg"
+            className="w-full max-w-[350px] md:max-w-full h-auto object-contain rounded-lg"
           />
         </motion.div>
       </section>
 
-      {/* Attributes */}
-      <section className="w-full px-6 md:px-32 max-w-6xl mx-auto pt-0 pb-24">
+      <section className="w-full px-6 md:pl-32 md:pr-0 max-w-6xl mx-auto pt-0 pb-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
           {Object.entries(groupedAttributes).map(([key, values], i) => (
             <motion.div
@@ -137,8 +140,7 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* Full Description */}
-      <section className="w-full px-3 md:px-32 pb-32 text-black">
+      <section className="w-full px-6 py-12 md:px-12 lg:pl-32 lg:pr-6 text-black max-w-9xl mx-auto">
         {restDescriptionLines.map((line, i) => {
           const words = line.split(" ");
           return (
@@ -170,7 +172,7 @@ export default function ProductPage() {
 
       {/* Category Preview */}
       {category && (
-        <CategoryPreview 
+        <CategoryPreview
           categoryName={category.name}
           categoryId={category.id}
           videoUrl={

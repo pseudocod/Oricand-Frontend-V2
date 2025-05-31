@@ -6,7 +6,7 @@ export default function CategoryPreview({
   categoryId,
 }) {
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden py-32">
+    <section className="relative min-h-screen flex items-center justify-center bg-white overflow-hidden pt-0 pb-32">
       {/* Background Text */}
       <div className="absolute inset-0 z-0 flex flex-col items-center justify-center space-y-6 text-[10vw] font-extrabold uppercase text-black leading-[0.9] opacity-100 pointer-events-none select-none">
         {Array.from({ length: 4 }).map((_, i) => (

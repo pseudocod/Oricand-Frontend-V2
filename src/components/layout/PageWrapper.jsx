@@ -29,7 +29,7 @@ export default function PageWrapper({ children }) {
       animate="animate"
       exit="exit"
       transition={transition}
-      className="min-h-screen w-full"
+      className="min-h-screen w-full md:pr-[80px] pt-[90px] md:pt-0"
     >
       {children}
     </motion.div>

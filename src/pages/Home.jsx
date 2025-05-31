@@ -17,6 +17,7 @@ export default function Home() {
       <HeroSection />
       <Marquee />
       <HighlightedProducts />
+      <Marquee />
 
       {categories.map((category) => (
         <div key={category.id}>

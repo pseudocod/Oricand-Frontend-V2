@@ -59,7 +59,7 @@ export default function DropThemeScene({ category }) {
           className="mt-6"
         >
           <Link
-            to={`/${category.id}`}
+            to={`/categories/${category.id}`}
             className="inline-block border border-white text-white px-6 py-2 uppercase tracking-wide text-sm hover:bg-white hover:text-black transition-all duration-300"
           >
             {theme.ctaText}
