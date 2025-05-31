@@ -3,10 +3,11 @@ import AppRoutes from "./routes/AppRoutes";
 import { Toaster } from "react-hot-toast";
 import Lenis from "lenis";
 import { useEffect } from "react";
-import Footer from "./components/Footer";
+import Footer from "./components/layout/Footer";
 import { AnimatePresence } from "framer-motion";
-import CustomCursor from "./components/CustomCursor";
-import SidebarHeader from "./components/SidebarHeader";
+import CustomCursor from "./components/ui/CustomCursor";
+import SidebarHeader from "./components/layout/SidebarHeader";
+import ScrollToTop from "./components/layout/ScrollToTop";
 
 function App() {
   useEffect(() => {
@@ -26,17 +27,20 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div className="relative">
-        <SidebarHeader />
-        {/* <CustomCursor /> */}
-        <AnimatePresence mode="wait">
-          <AppRoutes />
-        </AnimatePresence>
-        <Footer />
-        <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-      </div>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <ScrollToTop />
+        <div className="relative">
+          <SidebarHeader />
+          <CustomCursor />
+          <AnimatePresence mode="wait">
+            <AppRoutes />
+          </AnimatePresence>
+          <Footer />
+          <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 

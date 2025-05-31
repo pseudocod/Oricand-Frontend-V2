@@ -5,6 +5,11 @@ export async function fetchAllCategories() {
   return res.data;
 }
 
+export async function fetchCategoryById(id) {
+  const res = await axios.get(`/categories/${id}`);
+  return res.data;
+}
+
 export async function createCategory(data) {
   const res = await axios.post("/categories", data);
   return res.data;

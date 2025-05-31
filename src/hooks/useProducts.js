@@ -1,24 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 import toast from "react-hot-toast";
 import {
-  fetchAllProducts,
   createProduct,
-  updateProduct,
   deleteProduct,
-} from "@/services/productService";
+  fetchAllProducts,
+  updateProduct,
+} from "../services/productService";
 
 export default function useProducts() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  /** → GET */
   const load = useCallback(async () => {
-    setLoading(true);
     try {
+      setLoading(true);
       const data = await fetchAllProducts();
       setProducts(data);
-    } catch {
-      toast.error("Failed to load products");
+    } catch (err) {
+      console.error("Failed to load products:", err);
+      setError("Failed to load products");
     } finally {
       setLoading(false);
     }
@@ -49,5 +50,5 @@ export default function useProducts() {
     load();
   };
 
-  return { products, loading, add, edit, remove };
+  return { products, loading, error, add, edit, remove };
 }

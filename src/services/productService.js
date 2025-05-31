@@ -10,6 +10,11 @@ export const fetchProductById = async (id) => {
   return res.data;
 };
 
+export const fetchProductsByCategoryId = async (categoryId) => {
+  const res = await axios.get(`/products/category/${categoryId}`);
+  return res.data;
+};
+
 export const createProduct = async (productData) => {
   const res = await axios.post("/products", productData);
   return res.data;

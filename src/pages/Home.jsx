@@ -1,31 +1,26 @@
-import DropThemeScene from "../components/DropThemeScene";
-import Footer from "../components/Footer";
-import HeroSection from "../components/HeroSection";
-import Marquee from "../components/Marquee";
-import PoeticLine from "../components/PoeticLine";
-import SidebarHeader from "../components/SidebarHeader";
-import { drops } from "../data/drops";
+import DropThemeScene from "../components/sections/DropThemeScene";
+import Footer from "../components/layout/Footer";
+import HeroSection from "../components/sections/HeroSection";
+import Marquee from "../components/sections/Marquee";
+import PoeticLine from "../components/ui/PoeticLine";
+import { useCategories } from "../hooks/useCategories";
+import HighlightedProducts from "../components/ui/HighlightedProducts";
 
 export default function Home() {
+  const { categories, loading, error } = useCategories();
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
+
   return (
     <>
-
       <HeroSection />
       <Marquee />
+      <HighlightedProducts />
 
-      {drops.map((drop, i) => (
-        <div key={drop.id}>
-          <DropThemeScene
-            videoSrc={drop.videoSrc}
-            phrase={drop.phrase}
-            label={drop.label}
-            textColor={drop.textColor}
-            bg={drop.bg}
-            font={drop.font}
-            ctaHref={drop.ctaHref}
-            ctaText={drop.ctaText}
-            imageSrc={drop.imageSrc}
-          />
+      {categories.map((category) => (
+        <div key={category.id}>
+          <DropThemeScene category={category} />
           <PoeticLine />
         </div>
       ))}

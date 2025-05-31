@@ -1,53 +1,67 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { loginUser, registerUser } from "../services/authService";
+import { getCurrentUser } from "../services/userService";
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [loading, setLoading] = useState(true); 
+  const [token, setToken] = useState(localStorage.getItem("token"));
+  const [loading, setLoading] = useState(true);
+
+  const fetchUser = async () => {
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const res = await getCurrentUser();
+      setUser(res);
+    } catch (err) {
+      console.error("Failed to fetch user", err);
+      logout();
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setToken(storedToken);
-    }
-    setLoading(false);
-  }, []);
+    fetchUser();
+  }, [token]);
 
   const login = async (email, password) => {
     const res = await loginUser(email, password);
-    setUser(res.user);
     setToken(res.token);
-    localStorage.setItem("user", JSON.stringify(res.user));
+    setUser(res.user);
     localStorage.setItem("token", res.token);
   };
 
   const register = async (data) => {
     const res = await registerUser(data);
-    setUser(res.user);
     setToken(res.token);
-    localStorage.setItem("user", JSON.stringify(res.user));
+    setUser(res.user);
     localStorage.setItem("token", res.token);
   };
 
   const logout = () => {
     setUser(null);
     setToken(null);
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
   };
 
+  const refreshUser = async () => {
+    if (!token) return;
+    await fetchUser();
+  };
+
   return (
-    <UserContext.Provider value={{ user, token, login, register, logout, loading }}>
+    <UserContext.Provider
+      value={{ user, token, login, register, logout, refreshUser, loading }}
+    >
       {children}
     </UserContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  return useContext(UserContext);
-};
+export const useAuth = () => useContext(UserContext);

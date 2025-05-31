@@ -11,16 +11,73 @@ import AttributeTypeAdmin from "../pages/admin/AttributeTypeAdmin";
 import SelectedAttributeAdmin from "../pages/admin/SelectedAttributeAdmin";
 import CategoryAdmin from "../pages/admin/CategoryAdmin";
 import DashboardAdmin from "../pages/admin/DashboardAdmin";
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../components/layout/PageWrapper";
+import AllProducts from "../pages/AllProducts";
+import CategoryProducts from "../pages/CategoryProducts";
+import ProductPage from "../pages/ProductPage";
 
 export default function AppRoutes() {
   const location = useLocation();
 
   return (
     <Routes location={location} key={location.pathname}>
-      <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-      <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
-      <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
+      {/* Public Routes */}
+      <Route
+        path="/"
+        element={
+          <PageWrapper>
+            <Home />
+          </PageWrapper>
+        }
+      />
+      
+      {/* Authentication Routes */}
+      <Route
+        path="/login"
+        element={
+          <PageWrapper>
+            <Login />
+          </PageWrapper>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PageWrapper>
+            <Register />
+          </PageWrapper>
+        }
+      />
+
+      {/* Product Routes */}
+      <Route
+        path="/products"
+        element={
+          <PageWrapper>
+            <AllProducts />
+          </PageWrapper>
+        }
+      />
+      <Route
+        path="/products/:productId"
+        element={
+          <PageWrapper>
+            <ProductPage />
+          </PageWrapper>
+        }
+      />
+
+      {/* Category Routes */}
+      <Route
+        path="/categories/:categoryId"
+        element={
+          <PageWrapper>
+            <CategoryProducts />
+          </PageWrapper>
+        }
+      />
+
+      {/* Account Routes */}
       <Route
         path="/account"
         element={
@@ -31,6 +88,8 @@ export default function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
+      {/* Admin Routes */}
       <Route
         path="/admin"
         element={
@@ -71,7 +130,6 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       />
-
       <Route
         path="/admin/selected-attributes"
         element={
@@ -82,7 +140,6 @@ export default function AppRoutes() {
           </AdminRoute>
         }
       />
-
       <Route
         path="/admin/categories"
         element={

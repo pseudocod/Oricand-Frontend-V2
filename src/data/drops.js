@@ -16,7 +16,7 @@ export const drops = [
   {
     id: 2,
     theme: "vinyl",
-    label: "DROP 02 — VINYL WARMTH",
+    label: "DROP 02 —   ",
     title: "The Vinyl Drop",
     description: "Warmth in waves. Notes of hazelnut and crackle.",
     phrase: "Pressed in stillness.",
@@ -30,7 +30,7 @@ export const drops = [
     theme: "coming-soon",
     label: "DROP 03 — ORICAND x Travis Scott - COMING SOON",
     title: "ORICAND x Travis Scott",
-    description: "Acid-sweet. Drenched in sweat and synth.",
+    description: "",
     phrase: "21.06.2025",
     imageSrc: "coming-soon.jpeg",
     textColor: "white",

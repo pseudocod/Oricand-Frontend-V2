@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
-import FormInput from "../components/FormInput";
-import FormButton from "../components/FormButton";
+import FormInput from "../components/ui/FormInput";
+import FormButton from "../components/ui/FormButton";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -42,25 +42,25 @@ export default function Login() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormInput
               label="Email address"
-                id="email"
-                name="email"
-                type="email"
-                value={data.email}
-                onChange={handleChange}
-                required
+              id="email"
+              name="email"
+              type="email"
+              value={data.email}
+              onChange={handleChange}
+              required
               autoComplete="email"
-              />
+            />
 
             <FormInput
               label="Password"
-                id="password"
-                name="password"
-                type="password"
-                value={data.password}
-                onChange={handleChange}
-                required
+              id="password"
+              name="password"
+              type="password"
+              value={data.password}
+              onChange={handleChange}
+              required
               autoComplete="current-password"
-              />
+            />
 
             {error && <p className="text-sm text-red-600">{error}</p>}
 
