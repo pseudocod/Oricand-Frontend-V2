@@ -1,33 +1,36 @@
 import axios from "./axiosInstance";
 
-export const fetchAllProducts = async () => {
-  const res = await axios.get("/products");
-  return res.data;
-};
+export async function fetchAllProducts(sortBy = "") {
+  const response = await axios.get(`/products${sortBy ? `?sort=${sortBy}` : ""}`);
+  return response.data;
+}
 
-export const fetchProductById = async (id) => {
-  const res = await axios.get(`/products/${id}`);
-  return res.data;
-};
+export async function fetchProductsByCategoryId(categoryId, sortBy = "") {
+  const response = await axios.get(
+    `/products/category/${categoryId}${sortBy ? `?sort=${sortBy}` : ""}`
+  );
+  return response.data;
+}
 
-export const fetchProductsByCategoryId = async (categoryId) => {
-  const res = await axios.get(`/products/category/${categoryId}`);
-  return res.data;
-};
+export async function fetchProductById(id) {
+  const response = await axios.get(`/products/${id}`);
+  return response.data;
+}
 
-export const createProduct = async (productData) => {
-  const res = await axios.post("/products", productData);
-  return res.data;
-};
+export async function createProduct(product) {
+  const response = await axios.post("/products", product);
+  return response.data;
+}
 
-export const updateProduct = async (id, productData) => {
-  const res = await axios.put(`/products/${id}`, productData);
-  return res.data;
-};
+export async function updateProduct(id, product) {
+  const response = await axios.put(`/products/${id}`, product);
+  return response.data;
+}
 
-export const deleteProduct = async (id) => {
-  await axios.delete(`/products/${id}`);
-};
+export async function deleteProduct(id) {
+  const response = await axios.delete(`/products/${id}`);
+  return response.data;
+}
 
 export const uploadProductImages = async (productId, files) => {
   const formData = new FormData();

@@ -3,9 +3,9 @@ import { useProductsByCategory } from "../hooks/useProductsByCategory";
 import { useCategory } from "../hooks/useCategory";
 import { useScroll, useTransform } from "framer-motion";
 import { themeConfig } from "../config/themeConfig";
-import CategoryHero from "../components/sections/CategoryHero";
-import CategoryDescription from "../components/sections/CategoryDescription";
-import ProductsGrid from "../components/sections/ProductsGrid";
+import CategoryHero from "../components/category/CategoryHero";
+import CategoryDescription from "../components/category/CategoryDescription";
+import ProductsGrid from "../components/product/ProductsGrid";
 
 export default function CategoryProducts() {
   const { categoryId } = useParams();

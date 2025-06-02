@@ -1,42 +1,150 @@
-import ProductBoxPresentation from "../components/admin/cards/ProductBoxPresentation";
-import useProducts from "../hooks/useProducts";
+import { useCategories } from "../hooks/useCategories";
+import { useUrlParams } from "../hooks/useUrlParams";
+import ProductsGrid from "../components/product/ProductsGrid";
+import ProductFilter from "../components/product/ProductFilter";
+import ActiveFilters from "../components/product/ActiveFilters";
+import ErrorState from "../components/common/ErrorState/ErrorState";
+import { useProductsByCategory } from "../hooks/useProductsByCategory";
+import LoadingState from "../components/common/LoadingState/LoadingState";
+import Logo from "../components/ui/Logo";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AllProducts() {
-  const { products, loading, error } = useProducts();
+  const {
+    categories,
+    loading: categoriesLoading,
+    error: categoriesError,
+  } = useCategories();
 
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <span className="text-gray-500 text-lg">Loading...</span>
-      </div>
-    );
+  const { 
+    sortOption, 
+    selectedCategory, 
+    filters,
+    updateSort,
+    updateCategory 
+  } = useUrlParams(categories);
+
+  const {
+    products: finalProducts,
+    loading: productsLoading,
+    error: productsError,
+  } = useProductsByCategory(
+    selectedCategory !== "1" ? selectedCategory : null,
+    sortOption === "default" ? "" : sortOption
+  );
+
+  const selectedCategoryObj = categories.find(
+    (cat) => cat.id === parseInt(selectedCategory)
+  );
+
+  if (productsLoading || categoriesLoading) {
+    return <LoadingState />;
   }
 
-  if (error) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <span className="text-red-500 text-lg">{error}</span>
-      </div>
-    );
+  if (productsError || categoriesError) {
+    return <ErrorState error={productsError || categoriesError} />;
   }
 
   return (
-    <div className="min-h-screen bg-white px-6 py-12">
-      <div className="max-w-[1600px] mx-auto">
-        <h1 className="text-4xl font-light mb-16 text-center tracking-widest">
-          All Products
-        </h1>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-white"
+    >
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="min-h-[60vh] bg-cover bg-center bg-no-repeat flex flex-col justify-between"
+        style={{
+          backgroundImage: `url(${
+            selectedCategory === "1"
+              ? "/src/assets/images/all-products.jpg"
+              : `http://localhost:8080${selectedCategoryObj?.coverImageUrl}`
+          })`,
+        }}
+      >
+        <div className="px-6 md:px-12 pt-12">
+          <Logo />
+        </div>
 
-        {products.length === 0 ? (
-          <div className="text-center text-gray-500">No products found.</div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-12">
-            {products.map((product) => (
-              <ProductBoxPresentation key={product.id} product={product} />
-            ))}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={JSON.stringify(filters)}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="px-6 md:px-12"
+          >
+            <ActiveFilters filters={filters} />
+          </motion.div>
+        </AnimatePresence>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="flex flex-col items-end px-6 md:px-12 pb-8 md:pb-12"
+        >
+          <ProductFilter
+            categories={categories}
+            selectedCategory={selectedCategory}
+            sortOption={sortOption}
+            onCategoryChange={updateCategory}
+            onSortChange={updateSort}
+          />
+        </motion.div>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="px-6 md:px-12 py-5"
+      >
+        <div className="mb-16">
+          <div className="inline-flex items-start gap-4 text-gray-900">
+            <motion.h1
+              key={selectedCategory}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-5xl md:text-8xl xl:text-9xl font-semibold tracking-normal whitespace-nowrap"
+            >
+              {selectedCategory === "1"
+                ? "ALL PRODUCTS"
+                : selectedCategoryObj?.name.toUpperCase()}
+            </motion.h1>
+            <motion.span
+              key={finalProducts.length}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="text-2xl md:text-4xl font-light"
+            >
+              {finalProducts.length}
+            </motion.span>
           </div>
-        )}
-      </div>
-    </div>
+        </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={sortOption + selectedCategory}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ProductsGrid
+              products={finalProducts}
+              categoryName={selectedCategoryObj?.name}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
   );
 }

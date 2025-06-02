@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { fetchProductsByCategoryId } from '../services/productService';
+import { fetchProductsByCategoryId, fetchAllProducts } from '../services/productService';
 
-export const useProductsByCategory = (categoryId) => {
+export const useProductsByCategory = (categoryId, sortBy = "") => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -10,7 +10,9 @@ export const useProductsByCategory = (categoryId) => {
         const loadProducts = async () => {
             try {
                 setLoading(true);
-                const data = await fetchProductsByCategoryId(categoryId);
+                const data = categoryId 
+                    ? await fetchProductsByCategoryId(categoryId, sortBy)
+                    : await fetchAllProducts(sortBy);
                 setProducts(data);
             } catch (err) {
                 console.error('Failed to load products for category:', err);
@@ -20,13 +22,8 @@ export const useProductsByCategory = (categoryId) => {
             }
         };
 
-        if (categoryId) {
-            loadProducts();
-        } else {
-            setProducts([]);
-            setLoading(false);
-        }
-    }, [categoryId]);
+        loadProducts();
+    }, [categoryId, sortBy]);
 
     return { products, loading, error };
 }; 

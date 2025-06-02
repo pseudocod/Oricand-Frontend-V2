@@ -1,4 +1,4 @@
-import ProductImageGallery from "../../ui/ProductImageGallery";
+import ProductImageGallery from "../../product/ProductImage/ProductImageGallery";
 import ImageUploadInput from "../inputs/ImageUploadInput";
 
 export default function ProductCard({ product, onRefresh }) {

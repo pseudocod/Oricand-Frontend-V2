@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
-import FormInput from "../components/ui/FormInput";
-import FormButton from "../components/ui/FormButton";
+import FormInput from "../components/common/Input/FormInput";
+import FormButton from "../components/common/Button/FormButton";
 
 export default function Register() {
   const navigate = useNavigate();

@@ -1,13 +1,8 @@
-import { BrowserRouter } from "react-router-dom";
-import AppRoutes from "./routes/AppRoutes";
+import { RouterProvider } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Lenis from "lenis";
 import { useEffect } from "react";
-import Footer from "./components/layout/Footer";
-import { AnimatePresence } from "framer-motion";
-import CustomCursor from "./components/ui/CustomCursor";
-import SidebarHeader from "./components/layout/SidebarHeader";
-import ScrollToTop from "./components/layout/ScrollToTop";
+import router from "./routes/router";
 
 function App() {
   useEffect(() => {
@@ -18,28 +13,26 @@ function App() {
       smoothWheel: true,
     });
 
+    // Make lenis instance globally available
+    window.lenis = lenis;
+
     function raf(time) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
+
+    return () => {
+      window.lenis = null;
+      lenis.destroy();
+    };
   }, []);
 
   return (
     <>
-      <BrowserRouter>
-        <ScrollToTop />
-        <div className="relative">
-          <SidebarHeader />
-          <CustomCursor />
-          <AnimatePresence mode="wait">
-            <AppRoutes />
-          </AnimatePresence>
-          <Footer />
-          <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
-        </div>
-      </BrowserRouter>
+      <RouterProvider router={router} />
+      <Toaster position="top-center" toastOptions={{ duration: 2000 }} />
     </>
   );
 }

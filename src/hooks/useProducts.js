@@ -4,10 +4,11 @@ import {
   createProduct,
   deleteProduct,
   fetchAllProducts,
+  fetchProductsByCategoryId,
   updateProduct,
 } from "../services/productService";
 
-export default function useProducts() {
+export default function useProducts(categoryId = null, sortBy = "") {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -15,15 +16,18 @@ export default function useProducts() {
   const load = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await fetchAllProducts();
+      const data = categoryId 
+        ? await fetchProductsByCategoryId(categoryId, sortBy)
+        : await fetchAllProducts(sortBy);
       setProducts(data);
+      setError(null);
     } catch (err) {
       console.error("Failed to load products:", err);
       setError("Failed to load products");
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [categoryId, sortBy]);
 
   useEffect(() => {
     load();

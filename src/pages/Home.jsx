@@ -1,10 +1,10 @@
-import DropThemeScene from "../components/sections/DropThemeScene";
-import Footer from "../components/layout/Footer";
-import HeroSection from "../components/sections/HeroSection";
-import Marquee from "../components/sections/Marquee";
+import DropThemeScene from "../components/layout/DropTheme/DropThemeScene";
+import Footer from "../components/layout/Footer/Footer";
+import HeroSection from "../components/layout/HeroSection/HeroSection";
+import Marquee from "../components/ui/Marquee";
 import PoeticLine from "../components/ui/PoeticLine";
 import { useCategories } from "../hooks/useCategories";
-import HighlightedProducts from "../components/ui/HighlightedProducts";
+import HighlightedProducts from "../components/product/HighlightedProducts";
 
 export default function Home() {
   const { categories, loading, error } = useCategories();
