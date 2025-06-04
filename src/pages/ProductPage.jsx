@@ -76,7 +76,7 @@ export default function ProductPage() {
             categoryId={category.id}
             videoUrl={
               category.teaserVideoUrl
-                ? `http://localhost:8080${category.teaserVideoUrl}`
+                ? `${import.meta.env.VITE_MEDIA_URL}${category.teaserVideoUrl}`
                 : null
             }
           />

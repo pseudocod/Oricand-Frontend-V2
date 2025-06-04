@@ -7,7 +7,7 @@ export default function HighlightedProducts() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/products/featured")
+      .get(`${import.meta.env.VITE_API_URL}/products/featured`)
       .then((res) => setProducts(res.data))
       .catch((err) => console.error("Failed to fetch featured products", err));
   }, []);

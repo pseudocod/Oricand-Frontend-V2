@@ -57,7 +57,7 @@ export default function AllProducts() {
           backgroundImage: `url(${
             selectedCategory === "1"
               ? "/src/assets/images/all-products.jpg"
-              : `http://localhost:8080${selectedCategoryObj?.coverImageUrl}`
+              : `${import.meta.env.VITE_MEDIA_URL}${selectedCategoryObj?.coverImageUrl}`
           })`,
         }}
       >
