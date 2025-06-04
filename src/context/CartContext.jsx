@@ -11,22 +11,29 @@ import { useAuth } from "./UserContext";
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const [cart, setCart] = useState({ entries: [], totalPrice: 0 });
   const [loading, setLoading] = useState(true);
 
   const fetchCart = useCallback(async () => {
     try {
-      const { data } = await axios.get("/cart", { withCredentials: true });
+      const { data } = await axios.get("/cart", { 
+        withCredentials: true,
+        headers: {
+          // Only add Authorization header if user is logged in
+          ...(!!user && { Authorization: `Bearer ${localStorage.getItem("token")}` })
+        }
+      });
       setCart(data);
-    } catch {
+    } catch (error) {
+      console.error("Error fetching cart:", error);
       setCart({ entries: [], totalPrice: 0 });
     }
-  }, []);
+  }, [user]); // Add user as dependency since we use it in the request config
 
   useEffect(() => {
     fetchCart().finally(() => setLoading(false));
-  }, [fetchCart, token]);
+  }, [fetchCart]);
 
   const addToCart = async (product, qty) => {
     await axios.post(
@@ -35,7 +42,12 @@ export function CartProvider({ children }) {
         productId: product.id,
         quantity: qty,
       },
-      { withCredentials: true }
+      { 
+        withCredentials: true,
+        headers: {
+          ...(!!user && { Authorization: `Bearer ${localStorage.getItem("token")}` })
+        }
+      }
     );
     await fetchCart();
   };
@@ -44,13 +56,23 @@ export function CartProvider({ children }) {
     await axios.put(
       `/cart/entries/${entryId}`,
       { quantity: qty },
-      { withCredentials: true }
+      { 
+        withCredentials: true,
+        headers: {
+          ...(!!user && { Authorization: `Bearer ${localStorage.getItem("token")}` })
+        }
+      }
     );
     await fetchCart();
   };
 
   const removeEntry = async (entryId) => {
-    await axios.delete(`/cart/entries/${entryId}`, { withCredentials: true });
+    await axios.delete(`/cart/entries/${entryId}`, { 
+      withCredentials: true,
+      headers: {
+        ...(!!user && { Authorization: `Bearer ${localStorage.getItem("token")}` })
+      }
+    });
     await fetchCart();
   };
 
@@ -62,7 +84,6 @@ export function CartProvider({ children }) {
         addToCart,
         updateQuantity,
         removeEntry,
-        fetchCart,
       }}
     >
       {children}
