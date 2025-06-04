@@ -1,10 +1,15 @@
-import { useState, useEffect, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  createContext,
+  useContext,
+} from "react";
 import axios from "../services/axiosInstance";
-/**
- * One hook for guests and logged-in users.
- * The server looks after the cart (cookie-token when anonymous).
- */
-export function useCart() {
+
+const CartContext = createContext(null);
+
+export function CartProvider({ children }) {
   const [cart, setCart] = useState({ entries: [], totalPrice: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -43,5 +48,15 @@ export function useCart() {
     await fetchCart();
   };
 
-  return { cart, loading, addToCart, updateQuantity, removeEntry };
+  return (
+    <CartContext.Provider
+      value={{ cart, loading, addToCart, updateQuantity, removeEntry }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart() {
+  return useContext(CartContext);
 }
