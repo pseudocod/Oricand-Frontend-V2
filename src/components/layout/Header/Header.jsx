@@ -7,15 +7,13 @@ import MenuOverlay from "./MenuOverlay";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 import { useCartUI } from "../../../context/CartUIContext";
-import { useAuth } from "../../../context/UserContext";
 import { useCart } from "../../../hooks/useCart";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isOpen: isCartOpen, openCart, closeCart } = useCartUI();
   const location = useLocation();
-  const { user } = useAuth();
-  const { cart } = useCart(!!user);
+  const { cart } = useCart();
   const itemCount = cart.entries.reduce((n, e) => n + e.quantity, 0);
 
   useEffect(() => {

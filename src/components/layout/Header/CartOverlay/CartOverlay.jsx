@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../../context/UserContext";
 import { useCart } from "../../../../hooks/useCart";
 import { useCartUI } from "../../../../context/CartUIContext";
 
 export default function CartOverlay() {
-  const { user } = useAuth();
-  const { cart, loading, updateQuantity } = useCart(!!user);
+  const { cart, loading, updateQuantity } = useCart();
   const { isOpen, closeCart } = useCartUI();
 
   return (
