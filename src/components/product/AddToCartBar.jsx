@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
-import { useAuth } from "../../context/UserContext";
 import { useCartUI } from "../../context/CartUIContext";
 
 export default function AddToCartBar({ product }) {
   const [quantity, setQuantity] = useState(1);
-  const { user } = useAuth();
-  const { addToCart } = useCart(!!user);
+  const { addToCart } = useCart();
   const { openCart } = useCartUI();
 
   const increase = () => setQuantity((q) => Math.min(q + 1, 99));
