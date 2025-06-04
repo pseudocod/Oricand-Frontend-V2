@@ -1,20 +1,32 @@
-import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from "react";
 import axios from "../services/axiosInstance";
+import { useAuth } from "./UserContext";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
+  const { token } = useAuth();
   const [cart, setCart] = useState({ entries: [], totalPrice: 0 });
   const [loading, setLoading] = useState(true);
 
   const fetchCart = useCallback(async () => {
-    const { data } = await axios.get("/cart", { withCredentials: true });
-    setCart(data);
+    try {
+      const { data } = await axios.get("/cart", { withCredentials: true });
+      setCart(data);
+    } catch {
+      setCart({ entries: [], totalPrice: 0 });
+    }
   }, []);
 
   useEffect(() => {
     fetchCart().finally(() => setLoading(false));
-  }, [fetchCart]);
+  }, [fetchCart, token]);
 
   const addToCart = async (product, qty) => {
     await axios.post(
@@ -43,7 +55,16 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cart, loading, addToCart, updateQuantity, removeEntry, fetchCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        loading,
+        addToCart,
+        updateQuantity,
+        removeEntry,
+        fetchCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
