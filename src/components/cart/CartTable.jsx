@@ -1,6 +1,6 @@
 // src/components/cart/CartTable.jsx
 import { TrashIcon, MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../context/CartContext";
 
 export default function CartTable({ entries, compact = false }) {
   const { updateQuantity, removeEntry } = useCart();
@@ -28,7 +28,9 @@ export default function CartTable({ entries, compact = false }) {
                 {/* product */}
                 <td className="py-4 flex items-center gap-4">
                   <img
-                    src={`${import.meta.env.VITE_MEDIA_URL}${product.featuredImageUrl}`}
+                    src={`${import.meta.env.VITE_MEDIA_URL}${
+                      product.featuredImageUrl
+                    }`}
                     alt={product.name}
                     className="w-16 h-16 object-cover rounded"
                   />

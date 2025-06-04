@@ -7,7 +7,7 @@ import MenuOverlay from "./MenuOverlay";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 import { useCartUI } from "../../../context/CartUIContext";
-import { useCart } from "../../../hooks/useCart";
+import { useCart } from "../../../context/CartContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

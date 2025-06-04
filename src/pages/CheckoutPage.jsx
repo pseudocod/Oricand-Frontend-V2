@@ -1,16 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 import { useAddresses } from "../hooks/useAddresses";
 import useCheckout from "../hooks/useCheckout";
 import FormInput from "../components/common/Input/FormInput";
 import FormButton from "../components/common/Button/FormButton";
 import CartTable from "../components/cart/CartTable";
 import LoadingState from "../components/common/LoadingState/LoadingState";
+import { useAuth } from "../context/UserContext";
 
 export default function CheckoutPage() {
-  const { cart, loading: cartLoading } = useCart();
+  const { user } = useAuth(); // Assuming useAuth is imported from your auth context
+  const { cart, loading: cartLoading } = useCart(!!user);
   const { checkout, loading: placingOrder, error } = useCheckout();
   const { addresses, loading: addressesLoading } = useAddresses();
   const navigate = useNavigate();
@@ -114,10 +116,12 @@ export default function CheckoutPage() {
           {/* Delivery Address Section */}
           <div className="space-y-4">
             <h2 className="text-xl font-light uppercase">Delivery Address</h2>
-            
+
             {addresses.length > 0 && (
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Select Address</label>
+                <label className="text-sm font-medium text-gray-700">
+                  Select Address
+                </label>
                 <select
                   value={selectedDeliveryId}
                   onChange={(e) => setSelectedDeliveryId(e.target.value)}
@@ -182,7 +186,7 @@ export default function CheckoutPage() {
           {/* Billing Address Section */}
           <div className="space-y-4">
             <h2 className="text-xl font-light uppercase">Billing Address</h2>
-            
+
             <div className="flex items-center space-x-2 mb-4">
               <input
                 type="checkbox"
@@ -200,7 +204,9 @@ export default function CheckoutPage() {
               <>
                 {addresses.length > 0 && (
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Select Address</label>
+                    <label className="text-sm font-medium text-gray-700">
+                      Select Address
+                    </label>
                     <select
                       value={selectedBillingId}
                       onChange={(e) => setSelectedBillingId(e.target.value)}
@@ -287,7 +293,7 @@ export default function CheckoutPage() {
           </div>
 
           {error && <p className="text-sm text-red-600">{error}</p>}
-          
+
           <FormButton loading={placingOrder} loadingText="Placing Order...">
             Place Order
           </FormButton>

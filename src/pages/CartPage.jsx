@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useCart } from "../hooks/useCart";
+import { useCart } from "../context/CartContext";
 import CartTable from "../components/cart/CartTable";
 import LoadingState from "../components/common/LoadingState/LoadingState";
 

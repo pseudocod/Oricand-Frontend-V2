@@ -13,7 +13,8 @@ export default function useCheckout() {
       const { data } = await axios.post("/orders", orderData, {
         withCredentials: true,
       });
-      return data; 
+      await fetchCart();
+      return data;
     } catch (err) {
       setError(err?.response?.data?.message || "Checkout failed");
       throw err;

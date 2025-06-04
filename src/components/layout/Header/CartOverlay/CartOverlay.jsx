@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
-import { useCart } from "../../../../hooks/useCart";
+import { useCart } from "../../../../context/CartContext";
 import { useCartUI } from "../../../../context/CartUIContext";
 
 export default function CartOverlay() {
@@ -61,7 +61,9 @@ export default function CartOverlay() {
               return (
                 <div key={id} className="flex gap-5 items-center mb-8">
                   <img
-                    src={`${import.meta.env.VITE_MEDIA_URL}${product.featuredImageUrl}`}
+                    src={`${import.meta.env.VITE_MEDIA_URL}${
+                      product.featuredImageUrl
+                    }`}
                     className="w-32 h-32 object-cover rounded"
                   />
 

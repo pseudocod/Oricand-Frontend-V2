@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../context/CartContext";
 import { useCartUI } from "../../context/CartUIContext";
 
 export default function AddToCartBar({ product }) {

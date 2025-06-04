@@ -4,12 +4,15 @@ import {
   useCallback,
   createContext,
   useContext,
+  useRef,
 } from "react";
 import axios from "../services/axiosInstance";
+import { useAuth } from "./UserContext";
 
 const CartContext = createContext(null);
 
 export function CartProvider({ children }) {
+  const { token } = useAuth();
   const [cart, setCart] = useState({ entries: [], totalPrice: 0 });
   const [loading, setLoading] = useState(true);
 
@@ -18,9 +21,21 @@ export function CartProvider({ children }) {
     setCart(data);
   }, []);
 
+  const prevTokenRef = useRef(token);
+
   useEffect(() => {
+    const prevToken = prevTokenRef.current;
+    prevTokenRef.current = token;
+
+    setLoading(true);
+    if (!token && prevToken) {
+      setCart({ entries: [], totalPrice: 0 });
+      setLoading(false);
+      return;
+    }
+
     fetchCart().finally(() => setLoading(false));
-  }, [fetchCart]);
+  }, [fetchCart, token]);
 
   const addToCart = async (product, qty) => {
     await axios.post(

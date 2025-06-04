@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useCart } from "../../hooks/useCart";
+import { useCart } from "../../context/CartContext";
 import { useCartUI } from "../../context/CartUIContext";
 import Logo from "../ui/Logo";
 
