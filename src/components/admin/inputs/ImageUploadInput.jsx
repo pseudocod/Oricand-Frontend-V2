@@ -46,7 +46,7 @@ export default function ImageUploadInput({ productId, onUploadComplete }) {
           ${
             uploading
               ? "bg-gray-100 cursor-not-allowed"
-              : "bg-white hover:bg-gray-50"
+              : "bg-offwhite hover:bg-gray-50"
           }`}
       >
         {uploading ? "Uploading..." : "Choose Images"}

@@ -22,7 +22,7 @@ export default function ProductBoxPresentation({ product }) {
 
   return (
     <Link to={`/products/${product.id}`} className="group block">
-      <div className="relative aspect-[5/5] bg-white/80 border border-white/40 shadow-sm rounded-sm overflow-hidden transition-all duration-300 hover:shadow-md">
+      <div className="relative aspect-[5/5] bg-stone rounded-sm overflow-hidden transition-all duration-300 hover:shadow-md">
         {/* Product Image */}
         <img
           src={`http://localhost:8080${featuredImage?.url}`}

@@ -31,7 +31,7 @@ export default function CategoryProducts() {
   const theme = themeConfig[category.theme] || themeConfig.default;
 
   return (
-    <div className={`min-h-screen ${theme.gradient}`}>
+    <div className={`min-h-screen bg-offwhite ${theme.gradient}`}>
       <CategoryHero
         category={category}
         heroScale={heroScale}

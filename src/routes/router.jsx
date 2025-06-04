@@ -17,6 +17,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import AdminRoute from "./AdminRoute";
 import ErrorState from "../components/common/ErrorState/ErrorState";
 import RootLayout from "../components/layout/RootLayout";
+import CartPage from "../pages/CartPage";
 
 const router = createBrowserRouter([
   {
@@ -25,62 +26,150 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <PageWrapper><Home /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <Home />
+          </PageWrapper>
+        ),
       },
       {
         path: "/login",
-        element: <PageWrapper><Login /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <Login />
+          </PageWrapper>
+        ),
       },
       {
         path: "/register",
-        element: <PageWrapper><Register /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <Register />
+          </PageWrapper>
+        ),
       },
       {
         path: "/products",
-        element: <PageWrapper><AllProducts /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AllProducts />
+          </PageWrapper>
+        ),
       },
       {
         path: "/products/:productId",
-        element: <PageWrapper><ProductPage /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <ProductPage />
+          </PageWrapper>
+        ),
       },
       {
         path: "/categories/:categoryId",
-        element: <PageWrapper><CategoryProducts /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <CategoryProducts />
+          </PageWrapper>
+        ),
       },
       {
         path: "/collections/:categoryName",
-        element: <PageWrapper><AllProducts /></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AllProducts />
+          </PageWrapper>
+        ),
       },
       {
         path: "/account",
-        element: <PageWrapper><ProtectedRoute><Account /></ProtectedRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          </PageWrapper>
+        ),
       },
       {
+        path: "/cart",
+        element: (
+          <PageWrapper>
+            <CartPage />
+          </PageWrapper>
+        ),
+      },
+      // {
+      //   path: "/checkout",
+      //   element: (
+      //     <PageWrapper>
+      //       <ProtectedRoute>
+      //         <CheckoutPage />
+      //       </ProtectedRoute>
+      //     </PageWrapper>
+      //   ),
+      // },
+      {
         path: "/admin",
-        element: <PageWrapper><AdminRoute><DashboardAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <DashboardAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
       {
         path: "/admin/products",
-        element: <PageWrapper><AdminRoute><ProductAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <ProductAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
       {
         path: "/admin/attribute-options",
-        element: <PageWrapper><AdminRoute><AttributeOptionAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <AttributeOptionAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
       {
         path: "/admin/attribute-types",
-        element: <PageWrapper><AdminRoute><AttributeTypeAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <AttributeTypeAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
       {
         path: "/admin/selected-attributes",
-        element: <PageWrapper><AdminRoute><SelectedAttributeAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <SelectedAttributeAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
       {
         path: "/admin/categories",
-        element: <PageWrapper><AdminRoute><CategoryAdmin /></AdminRoute></PageWrapper>,
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <CategoryAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
       },
     ],
   },
 ]);
 
-export default router; 
+export default router;

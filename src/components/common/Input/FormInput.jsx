@@ -21,8 +21,8 @@ export default function FormInput({
         onChange={onChange}
         required={required}
         autoComplete={autoComplete}
-        className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-black transition"
+        className="px-4 py-2 border border-gray-300 rounded-xs shadow-sm bg-offwhite focus:outline-none focus:ring-2 focus:ring-richblack transition"
       />
     </div>
   );
-} 
+}

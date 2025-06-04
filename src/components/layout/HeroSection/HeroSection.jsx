@@ -4,7 +4,7 @@ export default function HeroSection() {
   return (
     <div className="relative h-screen w-full overflow-hidden bg-black text-white">
       <video
-        className="absolute inset-0 object-contain z-0"
+        className="absolute inset-0 w-full h-full object-cover z-0"
         autoPlay
         loop
         muted

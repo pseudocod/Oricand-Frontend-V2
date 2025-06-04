@@ -165,7 +165,7 @@ export default function ProductForm({ onSubmit, editingItem, onCancel }) {
         <button
           type="submit"
           disabled={loading}
-          className="bg-black text-white px-4 py-2 rounded hover:bg-white hover:text-black border transition cursor-pointer"
+          className="bg-richblack text-offwhite px-4 py-2 rounded hover:bg-offwhite hover:text-richblack border transition cursor-pointer"
         >
           {loading
             ? editingItem

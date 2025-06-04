@@ -12,8 +12,15 @@ export default function HighlightedProducts() {
       .catch((err) => console.error("Failed to fetch featured products", err));
   }, []);
 
+  const extractAttribute = (product, name) => {
+    const values = product.attributes
+      ?.filter((attr) => attr.attributeName === name)
+      .map((attr) => attr.value);
+    return values?.join(", ") || "—";
+  };
+
   return (
-    <section className="w-full px-6 md:px-20 py-20 bg-white">
+    <section className="bg-stone w-full px-6 md:px-20 py-20">
       <div className="max-w-6xl mx-auto text-center mb-16">
         <h2 className="text-3xl md:text-4xl font-light uppercase tracking-widest text-black">
           Featured Picks
@@ -28,34 +35,39 @@ export default function HighlightedProducts() {
         {products.map((product, index) => (
           <div
             key={product.id}
-            className="rounded-xl p-6 w-[280px] md:w-[300px] bg-gradient-to-br from-[#e0f7fa] via-white to-[#e3f2fd] border border-black/10 shadow-md text-black transition-transform hover:scale-[1.02] hover:shadow-lg"
+            className="group relative flex flex-col justify-between border border-black/10 bg-offwhite p-6 w-[280px] md:w-[320px] transition-transform hover:scale-[1.01]"
           >
-            <div className="flex justify-between items-start mb-3">
-              <h3 className="text-lg font-semibold uppercase tracking-wide">
-                {product.name}
-              </h3>
-              <span className="text-sm">{product.price} lei</span>
+            <div>
+              <div className="mb-4">
+                <h3 className="text-xl font-light uppercase tracking-wide text-richblack leading-snug">
+                  {product.name}
+                </h3>
+              </div>
+
+              <div className="space-y-1 text-sm tracking-tight text-neutral-700">
+                <div>
+                  <span className="text-neutral-900 font-medium">Type:</span>{" "}
+                  {extractAttribute(product, "Origin Country")}
+                </div>
+                <div>
+                  <span className="text-neutral-900 font-medium">Origin:</span>{" "}
+                  {extractAttribute(product, "Processing Method")}
+                </div>
+                <div>
+                  <span className="text-neutral-900 font-medium">Process:</span>{" "}
+                  {extractAttribute(product, "Roast Level")}
+                </div>
+                <div>
+                  <span className="text-neutral-900 font-medium">Tasting:</span>{" "}
+                  {extractAttribute(product, "Tasting Notes")}
+                </div>
+              </div>
             </div>
 
-            <div className="mt-4 space-y-1 text-xs uppercase tracking-wider text-neutral-700">
-              <div>
-                <span className="text-neutral-900">Type:</span>{" "}
-                <span className="font-medium">{product.type || "Test"}</span>
+            <Link to={`/products/${product.id}`} className="mt-3 block group">
+              <div className="text-sm uppercase tracking-widest text-richblack border-t border-black pt-3 transition">
+                Explore →
               </div>
-              <div>
-                <span className="text-neutral-900">Origin:</span>{" "}
-                <span className="font-medium">{product.origin || "Test"}</span>
-              </div>
-              <div>
-                <span className="text-neutral-900">Process:</span>{" "}
-                <span className="font-medium">{product.process || "Test"}</span>
-              </div>
-            </div>
-
-            <Link to={`/products/${product.id}`}>
-              <button className="mt-6 w-full text-xs font-medium border border-black py-2 tracking-widest hover:bg-black hover:text-white transition uppercase cursor-pointer">
-                Explore
-              </button>
             </Link>
           </div>
         ))}

@@ -11,7 +11,7 @@ export default function CategoryHero({ category, theme }) {
         transition={{ duration: 1 }}
         className="flex flex-col items-center justify-center text-center px-6"
       >
-        <Logo textColor="text-black" fontWeight="font-extralight" />
+        <Logo textColor="text-richblack" fontWeight="font-extralight" />
         <span className="text-2xl font-extralight tracking-widest uppercase mt-2">
           X
         </span>
@@ -21,7 +21,7 @@ export default function CategoryHero({ category, theme }) {
           {category.name}
         </h2>
 
-        <div className="h-[1px] w-12 bg-black my-6" />
+        <div className="h-[1px] w-12 bg-richblack my-6" />
 
         <p className="text-sm max-w-xl text-neutral-600 uppercase tracking-widest leading-loose">
           {category.label || "LIMITED TIME ONLY"}

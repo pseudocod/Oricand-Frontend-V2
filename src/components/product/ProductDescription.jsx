@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function ProductDescription({ descriptionLines }) {
   return (
-    <section className="w-full px-6 py-12 md:px-12 lg:pl-32 lg:pr-6 text-black max-w-9xl mx-auto">
+    <section className="w-full px-6 pb-12 pt-8 md:px-12 lg:pl-32 lg:pr-6 text-richblack max-w-9xl mx-auto">
       {descriptionLines.map((line, i) => {
         const words = line.split(" ");
         return (
@@ -32,4 +32,4 @@ export default function ProductDescription({ descriptionLines }) {
       })}
     </section>
   );
-} 
+}

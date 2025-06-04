@@ -30,7 +30,7 @@ export default function PoeticLine() {
   const line = "Something bold is brewing...";
 
   return (
-    <section className="h-[9vh] bg-white flex items-center justify-center overflow-hidden">
+    <section className="h-[9vh] flex items-center justify-center overflow-hidden">
       <motion.div
         variants={wrapper}
         initial="hidden"

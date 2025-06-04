@@ -1,39 +1,61 @@
-import { motion } from "framer-motion";
+import { Link, NavLink } from "react-router-dom";
+import Logo from "../../ui/Logo";
 
 export default function Footer() {
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+  const year = new Date().getFullYear();
+
+  const navItems = [
+    { label: "Products", to: "/collections/all" },
+    { label: "Account", to: "/account" },
+    { label: "About", to: "/about" },
+  ];
+
   return (
-    <>
-      <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-purple-900 via-transparent to-purple-900 opacity-30" />
+    <footer className="w-full bg-richblack text-offwhite lg:pr-[80px] py-30 space-y-12">
+      <div className="flex flex-col lg:flex-row justify-around items-center gap-12">
+        <Logo textColor="text-offwhite" />
 
-      <motion.footer
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-        className="bg-gradient-to-r from-[#0a0a0a] via-[#1a1222] to-[#0a0a0a] text-white py-12 text-center text-sm uppercase tracking-widest"
-      >
-        <div className="text-xs text-neutral-400">
-          © {new Date().getFullYear()} ORICAND
-        </div>
+        <div className="flex flex-col items-center lg:items-start gap-8">
+          <nav aria-label="Footer">
+            <ul className="flex flex-col sm:flex-row items-center gap-6 lg:gap-12">
+              {navItems.map(({ label, to }) => (
+                <li key={label}>
+                  <NavLink
+                    to={to}
+                    className="text-lg text-offwhite lg:text-xl border-b border-offwhite pb-1 transition
+                               hover:text-[#A5C5E9] hover:border-[#A5C5E9]
+                               focus-visible:outline-dashed focus-visible:outline-2
+                               focus-visible:outline-[#A5C5E9]"
+                  >
+                    {label}
+                  </NavLink>
+                </li>
+              ))}
+              <li></li>
+            </ul>
+          </nav>
 
-        <div className="text-sm font-light tracking-[0.15em]">
-          Welcome Anytime
-        </div>
-        <nav className="flex justify-center gap-6 text-xs text-neutral-500 mt-4">
-          <a href="/terms" className="hover:text-white">
-            Terms
-          </a>
-          <a href="/privacy" className="hover:text-white">
-            Privacy
-          </a>
-          <a
-            href="https://instagram.com/oricand"
-            className="hover:text-white"
-            target="_blank"
+          <p className="text-offwhite text-center lg:text-left text-xl font-extralight tracking-wider">
+            CRAFTED FOR EVERY MOMENT
+          </p>
+          <button
+            onClick={scrollToTop}
+            className="text-lg lg:text-5xl border-b border-offwhite pb-1 
+                               hover:text-[#A5C5E9] hover:border-[#A5C5E9]
+                               focus-visible:outline-dashed focus-visible:outline-2
+                               focus-visible:outline-[#A5C5E9] cursor-pointer transition-all"
           >
-            Instagram
-          </a>
-        </nav>
-      </motion.footer>
-    </>
+            BACK TO TOP
+          </button>
+        </div>
+      </div>
+
+      {/* Lower strip */}
+      <div className="text-center text-xs tracking-widest">
+        &copy; {year} ORICÂND CAFE
+      </div>
+    </footer>
   );
 }

@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useCart } from "../../hooks/useCart";
 import { useAuth } from "../../context/UserContext";
+import { useCartUI } from "../../context/CartUIContext";
 
 export default function AddToCartBar({ product }) {
   const [quantity, setQuantity] = useState(1);
   const { user } = useAuth();
   const { addToCart } = useCart(!!user);
+  const { openCart } = useCartUI();
 
   const increase = () => setQuantity((q) => Math.min(q + 1, 99));
   const decrease = () => setQuantity((q) => Math.max(q - 1, 1));
@@ -32,7 +34,10 @@ export default function AddToCartBar({ product }) {
       <div className="w-px h-6 bg-gray-300" />
 
       <button
-        onClick={() => addToCart(product, quantity)}
+        onClick={async () => {
+          await addToCart(product, quantity);
+          openCart();
+        }}
         className="text-base font-medium hover:underline cursor-pointer transition-all"
       >
         Add to Cart

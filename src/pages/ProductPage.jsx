@@ -51,10 +51,7 @@ export default function ProductPage() {
 
   return (
     <>
-      {/* <div className="flex justify-center">
-        <Logo textColor="text-black" fontWeight="font-semibold" />
-      </div> */}
-      <div className="bg-white text-black">
+      <div className="text-black">
         {showFloatingBar && (
           <div className="fixed bottom-0 left-0 w-full z-50">
             <AddToCartBar product={product} />
