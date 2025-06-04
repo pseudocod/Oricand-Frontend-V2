@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 import { useCart } from "../../hooks/useCart";
-import { useAuth } from "../../context/UserContext";
 import { useCartUI } from "../../context/CartUIContext";
 import Logo from "../ui/Logo";
 
@@ -11,8 +10,7 @@ export default function ProductHero({
   addToCartRef,
   featuredImage,
 }) {
-  const { user } = useAuth();
-  const { addToCart } = useCart(!!user);
+  const { addToCart } = useCart();
 
   return (
     <>
