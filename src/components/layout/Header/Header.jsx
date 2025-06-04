@@ -29,7 +29,6 @@ export default function Header() {
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [closeCart]);
 
-  // Close menu and cart on route change
   useEffect(() => {
     setIsMenuOpen(false);
     closeCart();
@@ -60,7 +59,6 @@ export default function Header() {
         cartCount={itemCount}
       />
 
-      {/* Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <MenuOverlay
