@@ -18,6 +18,7 @@ import AdminRoute from "./AdminRoute";
 import ErrorState from "../components/common/ErrorState/ErrorState";
 import RootLayout from "../components/layout/RootLayout";
 import CartPage from "../pages/CartPage";
+import CheckoutPage from "../pages/CheckoutPage";
 
 const router = createBrowserRouter([
   {
@@ -98,16 +99,16 @@ const router = createBrowserRouter([
           </PageWrapper>
         ),
       },
-      // {
-      //   path: "/checkout",
-      //   element: (
-      //     <PageWrapper>
-      //       <ProtectedRoute>
-      //         <CheckoutPage />
-      //       </ProtectedRoute>
-      //     </PageWrapper>
-      //   ),
-      // },
+      {
+        path: "/checkout",
+        element: (
+          <PageWrapper>
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          </PageWrapper>
+        ),
+      },
       {
         path: "/admin",
         element: (
