@@ -5,28 +5,15 @@ export default function useCheckout() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const checkout = async ({
-    cartId,
-    paymentType,
-    deliveryAddr,
-    invoiceAddr,
-  }) => {
+  const checkout = async (orderData) => {
     try {
       setLoading(true);
       setError(null);
 
-      const body = {
-        cartId,
-        paymentType,
-        // backend expects either id *or* full dto – pick one
-        deliveryAddress: deliveryAddr, // or deliveryAddressId
-        invoiceAddress: invoiceAddr, // or invoiceAddressId
-      };
-
-      const { data } = await axios.post("/orders", body, {
+      const { data } = await axios.post("/orders", orderData, {
         withCredentials: true,
       });
-      return data; // an OrderResponseDto
+      return data; 
     } catch (err) {
       setError(err?.response?.data?.message || "Checkout failed");
       throw err;

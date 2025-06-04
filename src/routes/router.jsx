@@ -18,6 +18,8 @@ import AdminRoute from "./AdminRoute";
 import ErrorState from "../components/common/ErrorState/ErrorState";
 import RootLayout from "../components/layout/RootLayout";
 import CartPage from "../pages/CartPage";
+import CheckoutPage from "../pages/CheckoutPage";
+import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 
 const router = createBrowserRouter([
   {
@@ -98,16 +100,16 @@ const router = createBrowserRouter([
           </PageWrapper>
         ),
       },
-      // {
-      //   path: "/checkout",
-      //   element: (
-      //     <PageWrapper>
-      //       <ProtectedRoute>
-      //         <CheckoutPage />
-      //       </ProtectedRoute>
-      //     </PageWrapper>
-      //   ),
-      // },
+      {
+        path: "/checkout",
+        element: (
+          <PageWrapper>
+            <ProtectedRoute>
+              <CheckoutPage />
+            </ProtectedRoute>
+          </PageWrapper>
+        ),
+      },
       {
         path: "/admin",
         element: (
@@ -165,6 +167,16 @@ const router = createBrowserRouter([
             <AdminRoute>
               <CategoryAdmin />
             </AdminRoute>
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/order-confirmation",
+        element: (
+          <PageWrapper>
+            <ProtectedRoute>
+              <OrderConfirmationPage />
+            </ProtectedRoute>
           </PageWrapper>
         ),
       },
