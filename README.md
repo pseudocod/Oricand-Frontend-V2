@@ -11,3 +11,15 @@ Currently, two official plugins are available:
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # Oricand-Frontend-V2
+
+## Environment Variables
+
+Create a `.env` file based on `.env.example` and adjust the URLs if needed:
+
+```
+VITE_API_URL=http://localhost:8080/api
+VITE_MEDIA_URL=http://localhost:8080
+```
+
+`VITE_API_URL` points to the API base URL used by Axios while
+`VITE_MEDIA_URL` is prefixed to media paths such as images or videos.

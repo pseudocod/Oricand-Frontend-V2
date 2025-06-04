@@ -25,7 +25,7 @@ export default function ProductBoxPresentation({ product }) {
       <div className="relative aspect-[5/5] bg-stone rounded-sm overflow-hidden transition-all duration-300 hover:shadow-md">
         {/* Product Image */}
         <img
-          src={`http://localhost:8080${featuredImage?.url}`}
+          src={`${import.meta.env.VITE_MEDIA_URL}${featuredImage?.url}`}
           alt={product.name}
           className="w-full h-full object-contain p-4 transition-opacity duration-500"
         />

@@ -35,7 +35,7 @@ export default function ProductImageGallery({ productId, images, onRefresh }) {
           }`}
         >
           <img
-            src={`http://localhost:8080${img.url}`}
+            src={`${import.meta.env.VITE_MEDIA_URL}${img.url}`}
             alt="Product"
             className="object-cover w-full h-full"
           />

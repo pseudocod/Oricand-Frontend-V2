@@ -28,7 +28,7 @@ export default function CartTable({ entries, compact = false }) {
                 {/* product */}
                 <td className="py-4 flex items-center gap-4">
                   <img
-                    src={`http://localhost:8080${product.featuredImageUrl}`}
+                    src={`${import.meta.env.VITE_MEDIA_URL}${product.featuredImageUrl}`}
                     alt={product.name}
                     className="w-16 h-16 object-cover rounded"
                   />

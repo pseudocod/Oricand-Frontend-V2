@@ -18,13 +18,13 @@ export default function DropThemeScene({ category }) {
           className="absolute inset-0 w-full h-full object-cover"
         >
           <source
-            src={`http://localhost:8080${category.teaserVideoUrl}`}
+            src={`${import.meta.env.VITE_MEDIA_URL}${category.teaserVideoUrl}`}
             type="video/mp4"
           />
         </video>
       ) : category.coverImageUrl ? (
         <img
-          src={`http://localhost:8080${category.coverImageUrl}`}
+          src={`${import.meta.env.VITE_MEDIA_URL}${category.coverImageUrl}`}
           alt="drop background"
           className="absolute inset-0 w-full h-full object-cover"
         />

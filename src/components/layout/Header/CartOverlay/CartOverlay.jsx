@@ -63,7 +63,7 @@ export default function CartOverlay() {
               return (
                 <div key={id} className="flex gap-5 items-center mb-8">
                   <img
-                    src={`http://localhost:8080${product.featuredImageUrl}`}
+                    src={`${import.meta.env.VITE_MEDIA_URL}${product.featuredImageUrl}`}
                     className="w-32 h-32 object-cover rounded"
                   />
 
