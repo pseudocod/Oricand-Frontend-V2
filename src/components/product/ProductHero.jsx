@@ -54,7 +54,7 @@ export default function ProductHero({
             className="order-1 md:order-2 w-full md:w-1/2 flex items-center justify-center"
           >
             <img
-              src={`http://localhost:8080${featuredImage.url}`}
+              src={`${import.meta.env.VITE_MEDIA_URL}${featuredImage.url}`}
               alt={product.name}
               className="w-full max-w-[350px] md:max-w-full h-auto object-contain rounded-lg"
             />
