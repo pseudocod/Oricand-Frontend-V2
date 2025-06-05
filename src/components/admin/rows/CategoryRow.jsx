@@ -1,24 +1,25 @@
 export default function CategoryRow({ category, onEdit, onDelete }) {
   return (
-    <div className="flex items-center justify-between border-b py-3">
+    <div className="flex items-end justify-between border-b py-3">
       <div>
         <div className="font-semibold">{category.name}</div>
         <div className="text-sm text-gray-500">{category.description}</div>
         {category.coverImageUrl && (
           <img
-            src={category.coverImageUrl}
+            src={import.meta.env.VITE_MEDIA_URL + category.coverImageUrl}
             alt="Cover"
-            className="w-28 h-auto mt-2 rounded shadow"
+            className="h-50 w-auto mt-2 shadow"
           />
         )}
         {category.teaserVideoUrl && (
           <video
-            src={category.teaserVideoUrl}
+            src={import.meta.env.VITE_MEDIA_URL + category.teaserVideoUrl}
             controls
-            className="w-48 mt-2 rounded shadow"
+            className="w-48 mt-2 shadow"
           />
         )}
       </div>
+      
       <div className="flex gap-2">
         <button
           onClick={onEdit}

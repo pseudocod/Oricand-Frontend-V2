@@ -50,6 +50,7 @@ export default function MenuOverlay({ isOpen, onClose }) {
                 Account
               </NavLink>
             )}
+
             {user?.role === "ROLE_ADMIN" && (
               <NavLink to="/admin" onClick={onClose} variant="small">
                 Admin Panel

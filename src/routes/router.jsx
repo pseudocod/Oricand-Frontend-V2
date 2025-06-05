@@ -9,6 +9,7 @@ import AttributeTypeAdmin from "../pages/admin/AttributeTypeAdmin";
 import SelectedAttributeAdmin from "../pages/admin/SelectedAttributeAdmin";
 import CategoryAdmin from "../pages/admin/CategoryAdmin";
 import DashboardAdmin from "../pages/admin/DashboardAdmin";
+import OrderAdmin from "../pages/admin/OrderAdmin";
 import AllProducts from "../pages/AllProducts";
 import CategoryProducts from "../pages/CategoryProducts";
 import ProductPage from "../pages/ProductPage";
@@ -20,6 +21,7 @@ import RootLayout from "../components/layout/RootLayout";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
+
 
 const router = createBrowserRouter([
   {
@@ -104,9 +106,7 @@ const router = createBrowserRouter([
         path: "/checkout",
         element: (
           <PageWrapper>
-            <ProtectedRoute>
-              <CheckoutPage />
-            </ProtectedRoute>
+            <CheckoutPage />
           </PageWrapper>
         ),
       },
@@ -116,6 +116,16 @@ const router = createBrowserRouter([
           <PageWrapper>
             <AdminRoute>
               <DashboardAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/admin/orders",
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <OrderAdmin />
             </AdminRoute>
           </PageWrapper>
         ),
@@ -174,9 +184,7 @@ const router = createBrowserRouter([
         path: "/order-confirmation",
         element: (
           <PageWrapper>
-            <ProtectedRoute>
-              <OrderConfirmationPage />
-            </ProtectedRoute>
+            <OrderConfirmationPage />
           </PageWrapper>
         ),
       },

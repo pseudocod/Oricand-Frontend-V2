@@ -10,13 +10,18 @@ import {
 import { useAuth } from "../context/UserContext";
 import toast from "react-hot-toast";
 
-export const useAddresses = () => {
+export const useAddresses = (shouldFetch = true) => {
   const [addresses, setAddresses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingAddress, setEditingAddress] = useState(null);
   const { user, refreshUser } = useAuth();
 
   const loadAddresses = async () => {
+    if (!user || !shouldFetch) {
+      setLoading(false);
+      return;
+    }
+    
     try {
       const data = await getCurrentUserAddresses();
       setAddresses(data);
@@ -30,7 +35,7 @@ export const useAddresses = () => {
 
   useEffect(() => {
     loadAddresses();
-  }, []);
+  }, [user, shouldFetch]);
 
   const handleCreateAddress = async (addressData) => {
     try {

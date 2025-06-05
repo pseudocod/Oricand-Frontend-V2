@@ -27,7 +27,7 @@ export default function Profile() {
     defaultDeliveryId,
     defaultBillingId,
   } = useAddresses();
-  const { orders, loading: ordersLoading } = useOrders();
+  const { orders, loading: ordersLoading, loadOrders } = useOrders();
 
   const [activeTab, setActiveTab] = useState("profile");
   const [isAddingAddress, setIsAddingAddress] = useState(false);
@@ -85,7 +85,7 @@ export default function Profile() {
                 />
               )}
               {activeTab === "orders" && (
-                <OrderContent orders={orders} loading={ordersLoading} />
+                <OrderContent orders={orders} loading={ordersLoading} loadOrders={loadOrders} />
               )}
             </div>
 

@@ -70,7 +70,7 @@ export default function CategoryForm({ onSubmit, editingItem, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="mb-6 space-y-4 max-w-xl">
       <h2 className="text-2xl font-medium">
-        {editingItem ? "✏️ Edit Category" : "➕ New Category"}
+        {editingItem ? "✏️ Edit Category" : "➕ Add New Category"}
       </h2>
 
       <input

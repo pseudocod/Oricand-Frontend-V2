@@ -1,22 +1,33 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../context/CartContext";
 import { useAddresses } from "../hooks/useAddresses";
 import useCheckout from "../hooks/useCheckout";
-import FormInput from "../components/common/Input/FormInput";
+import useCheckoutValidation from "../hooks/useCheckoutValidation";
 import FormButton from "../components/common/Button/FormButton";
 import CartTable from "../components/cart/CartTable";
 import LoadingState from "../components/common/LoadingState/LoadingState";
+import ContactInformationSection from "../components/checkout/ContactInformationSection";
+import AddressSection from "../components/checkout/AddressSection";
+import GuestAddressSection from "../components/checkout/GuestAddressSection";
+import GuestInformationSection from "../components/checkout/GuestInformationSection";
+import CheckoutModeSelector from "../components/checkout/CheckoutModeSelector";
+import PaymentMethodSection from "../components/checkout/PaymentMethodSection";
 import { useAuth } from "../context/UserContext";
 
 export default function CheckoutPage() {
-  const { user } = useAuth(); // Assuming useAuth is imported from your auth context
-  const { cart, loading: cartLoading } = useCart(!!user);
-  const { checkout, loading: placingOrder, error } = useCheckout();
-  const { addresses, loading: addressesLoading } = useAddresses();
+  const { user } = useAuth();
+  const { cart, loading: cartLoading, refreshCart } = useCart();
+  const { checkout, loading: placingOrder, error, isAuthenticated } = useCheckout();
+  const { addresses, loading: addressesLoading } = useAddresses(!!user); // Only fetch if user exists
+  const { validateContactInfo, isContactInfoComplete } = useCheckoutValidation();
   const navigate = useNavigate();
 
+  // Guest/User mode state
+  const [isGuestCheckout, setIsGuestCheckout] = useState(!isAuthenticated);
+
+  // User checkout states
   const [selectedDeliveryId, setSelectedDeliveryId] = useState("new");
   const [selectedBillingId, setSelectedBillingId] = useState("new");
   const [sameAsDelivery, setSameAsDelivery] = useState(true);
@@ -37,52 +48,204 @@ export default function CheckoutPage() {
     country: "",
   });
 
+  // Contact information state (for authenticated users)
+  const [contactInfo, setContactInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+  });
+
+  // Guest checkout states
+  const [guestInfo, setGuestInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    subscribeToNewsletter: false,
+    allowMarketing: false,
+  });
+
+  const [guestDeliveryAddr, setGuestDeliveryAddr] = useState({
+    streetLine: "",
+    postalCode: "",
+    city: "",
+    county: "",
+    country: "",
+  });
+
+  const [guestBillingAddr, setGuestBillingAddr] = useState({
+    streetLine: "",
+    postalCode: "",
+    city: "",
+    county: "",
+    country: "",
+  });
+
+  const [guestSameAsDelivery, setGuestSameAsDelivery] = useState(true);
+
   const [paymentType, setPaymentType] = useState("CASH");
 
-  const handleChange = (setter) => (e) => {
-    const { name, value } = e.target;
-    setter((prev) => ({ ...prev, [name]: value }));
+  // Populate contact info from user when user loads
+  useEffect(() => {
+    if (user) {
+      setContactInfo({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        email: user.email || "",
+        phoneNumber: user.phoneNumber || "",
+      });
+      setIsGuestCheckout(false);
+    }
+  }, [user]);
+
+  // Pre-select default addresses when user and addresses are loaded  
+  useEffect(() => {
+    if (user && addresses.length > 0) {
+      // Set default delivery address if exists
+      if (user.defaultDeliveryAddressId) {
+        const defaultDeliveryExists = addresses.find(addr => addr.id === user.defaultDeliveryAddressId);
+        if (defaultDeliveryExists) {
+          setSelectedDeliveryId(user.defaultDeliveryAddressId.toString());
+        }
+      }
+
+      // Set default billing address if exists and different from delivery
+      if (user.defaultBillingAddressId) {
+        const defaultBillingExists = addresses.find(addr => addr.id === user.defaultBillingAddressId);
+        if (defaultBillingExists) {
+          setSelectedBillingId(user.defaultBillingAddressId.toString());
+          // If billing address is different from delivery, uncheck "same as delivery"
+          if (user.defaultBillingAddressId !== user.defaultDeliveryAddressId) {
+            setSameAsDelivery(false);
+          }
+        }
+      }
+    }
+  }, [user, addresses]);
+
+  const validateGuestInfo = () => {
+    const { firstName, lastName, email } = guestInfo;
+    
+    if (!firstName.trim()) {
+      return "First name is required";
+    }
+    if (!lastName.trim()) {
+      return "Last name is required";
+    }
+    if (!email.trim()) {
+      return "Email is required";
+    }
+    if (!email.includes("@") || !email.includes(".")) {
+      return "Please enter a valid email address";
+    }
+    
+    return null;
+  };
+
+  const validateGuestAddress = (address, addressType) => {
+    const required = ["streetLine", "city", "postalCode", "county", "country"];
+    
+    for (const field of required) {
+      if (!address[field].trim()) {
+        return `${addressType} ${field.replace(/([A-Z])/g, ' $1').toLowerCase()} is required`;
+      }
+    }
+    
+    return null;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const orderData = {
-      cartId: cart.id,
-      paymentType,
-    };
+    if (isGuestCheckout) {
+      // Guest checkout validation
+      const guestValidation = validateGuestInfo();
+      if (guestValidation) {
+        alert(guestValidation);
+        return;
+      }
 
-    // Handle delivery address
-    if (selectedDeliveryId === "new") {
-      orderData.deliveryAddress = newDeliveryAddr;
+      const deliveryValidation = validateGuestAddress(guestDeliveryAddr, "Delivery");
+      if (deliveryValidation) {
+        alert(deliveryValidation);
+        return;
+      }
+
+      if (!guestSameAsDelivery) {
+        const billingValidation = validateGuestAddress(guestBillingAddr, "Billing");
+        if (billingValidation) {
+          alert(billingValidation);
+          return;
+        }
+      }
+
+      // Prepare guest order data
+      const guestOrderData = {
+        cartId: cart.id,
+        email: guestInfo.email,
+        firstName: guestInfo.firstName,
+        lastName: guestInfo.lastName,
+        phoneNumber: guestInfo.phoneNumber,
+        paymentType,
+        deliveryAddress: guestDeliveryAddr,
+        invoiceAddress: guestSameAsDelivery ? null : guestBillingAddr,
+        useSameInvoiceAddress: guestSameAsDelivery,
+        subscribeToNewsletter: guestInfo.subscribeToNewsletter,
+        allowMarketing: guestInfo.allowMarketing,
+      };
+
+      try {
+        const orderResponse = await checkout(guestOrderData, true);
+        await refreshCart(); 
+        navigate("/order-confirmation", { state: { order: orderResponse } });
+      } catch {
+        return;
+      }
     } else {
-      orderData.deliveryAddressId = parseInt(selectedDeliveryId);
-    }
+      // Authenticated user checkout (existing logic)
+      if (!validateContactInfo(contactInfo)) {
+        return;
+      }
 
-    // Handle billing address
-    if (sameAsDelivery) {
+      const orderData = {
+        cartId: cart.id,
+        paymentType,
+      };
+
+      // Handle delivery address
       if (selectedDeliveryId === "new") {
-        orderData.invoiceAddress = newDeliveryAddr;
+        orderData.deliveryAddress = newDeliveryAddr;
       } else {
-        orderData.invoiceAddressId = parseInt(selectedDeliveryId);
+        orderData.deliveryAddressId = parseInt(selectedDeliveryId);
       }
-    } else {
-      if (selectedBillingId === "new") {
-        orderData.invoiceAddress = newBillingAddr;
-      } else {
-        orderData.invoiceAddressId = parseInt(selectedBillingId);
-      }
-    }
 
-    try {
-      const orderResponse = await checkout(orderData);
-      navigate("/order-confirmation", { state: { order: orderResponse } });
-    } catch {
-      return;
+      // Handle billing address
+      if (sameAsDelivery) {
+        if (selectedDeliveryId === "new") {
+          orderData.useSameInvoiceAddress = true;
+        } else {
+          orderData.invoiceAddressId = parseInt(selectedDeliveryId);
+        }
+      } else {
+        if (selectedBillingId === "new") {
+          orderData.invoiceAddress = newBillingAddr;
+        } else {
+          orderData.invoiceAddressId = parseInt(selectedBillingId);
+        }
+      }
+
+      try {
+        const orderResponse = await checkout(orderData, false);
+        await refreshCart(); 
+        navigate("/order-confirmation", { state: { order: orderResponse } });
+      } catch {
+        return;
+      }
     }
   };
 
-  if (cartLoading || addressesLoading) return <LoadingState />;
+  if (cartLoading || (isAuthenticated && addressesLoading)) return <LoadingState />;
 
   if (!cart.entries.length) {
     return (
@@ -112,192 +275,94 @@ export default function CheckoutPage() {
       </div>
 
       <div className="grid md:grid-cols-2 gap-12">
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Delivery Address Section */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-light uppercase">Delivery Address</h2>
+        <div className="space-y-8">
+          {/* Checkout Mode Selector */}
+          <CheckoutModeSelector
+            isGuest={isGuestCheckout}
+            onModeChange={setIsGuestCheckout}
+            isAuthenticated={isAuthenticated}
+          />
 
-            {addresses.length > 0 && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">
-                  Select Address
-                </label>
-                <select
-                  value={selectedDeliveryId}
-                  onChange={(e) => setSelectedDeliveryId(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-xs bg-offwhite focus:outline-none focus:ring-2 focus:ring-richblack"
-                >
-                  <option value="new">Add New Address</option>
-                  {addresses.map((addr) => (
-                    <option key={addr.id} value={addr.id}>
-                      {addr.streetLine}, {addr.city} {addr.postalCode}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-
-            {selectedDeliveryId === "new" && (
-              <div className="space-y-4 pt-4">
-                <FormInput
-                  label="Street"
-                  id="d-street"
-                  name="streetLine"
-                  value={newDeliveryAddr.streetLine}
-                  onChange={handleChange(setNewDeliveryAddr)}
-                  required
-                />
-                <FormInput
-                  label="Postal Code"
-                  id="d-postal"
-                  name="postalCode"
-                  value={newDeliveryAddr.postalCode}
-                  onChange={handleChange(setNewDeliveryAddr)}
-                  required
-                />
-                <FormInput
-                  label="City"
-                  id="d-city"
-                  name="city"
-                  value={newDeliveryAddr.city}
-                  onChange={handleChange(setNewDeliveryAddr)}
-                  required
-                />
-                <FormInput
-                  label="County"
-                  id="d-county"
-                  name="county"
-                  value={newDeliveryAddr.county}
-                  onChange={handleChange(setNewDeliveryAddr)}
-                  required
-                />
-                <FormInput
-                  label="Country"
-                  id="d-country"
-                  name="country"
-                  value={newDeliveryAddr.country}
-                  onChange={handleChange(setNewDeliveryAddr)}
-                  required
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Billing Address Section */}
-          <div className="space-y-4">
-            <h2 className="text-xl font-light uppercase">Billing Address</h2>
-
-            <div className="flex items-center space-x-2 mb-4">
-              <input
-                type="checkbox"
-                id="sameAsDelivery"
-                checked={sameAsDelivery}
-                onChange={(e) => setSameAsDelivery(e.target.checked)}
-                className="rounded border-gray-300 text-black focus:ring-black"
-              />
-              <label htmlFor="sameAsDelivery" className="text-sm text-gray-700">
-                Same as delivery address
-              </label>
-            </div>
-
-            {!sameAsDelivery && (
+          <form onSubmit={handleSubmit} className="space-y-8 bg-stone p-4 rounded-lg">
+            {isGuestCheckout ? (
+              // Guest Checkout Form
               <>
-                {addresses.length > 0 && (
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">
-                      Select Address
-                    </label>
-                    <select
-                      value={selectedBillingId}
-                      onChange={(e) => setSelectedBillingId(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-xs bg-offwhite focus:outline-none focus:ring-2 focus:ring-richblack"
-                    >
-                      <option value="new">Add New Address</option>
-                      {addresses.map((addr) => (
-                        <option key={addr.id} value={addr.id}>
-                          {addr.streetLine}, {addr.city} {addr.postalCode}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
+                <GuestInformationSection
+                  guestInfo={guestInfo}
+                  setGuestInfo={setGuestInfo}
+                />
 
-                {selectedBillingId === "new" && (
-                  <div className="space-y-4 pt-4">
-                    <FormInput
-                      label="Street"
-                      id="i-street"
-                      name="streetLine"
-                      value={newBillingAddr.streetLine}
-                      onChange={handleChange(setNewBillingAddr)}
-                      required
-                    />
-                    <FormInput
-                      label="Postal Code"
-                      id="i-postal"
-                      name="postalCode"
-                      value={newBillingAddr.postalCode}
-                      onChange={handleChange(setNewBillingAddr)}
-                      required
-                    />
-                    <FormInput
-                      label="City"
-                      id="i-city"
-                      name="city"
-                      value={newBillingAddr.city}
-                      onChange={handleChange(setNewBillingAddr)}
-                      required
-                    />
-                    <FormInput
-                      label="County"
-                      id="i-county"
-                      name="county"
-                      value={newBillingAddr.county}
-                      onChange={handleChange(setNewBillingAddr)}
-                      required
-                    />
-                    <FormInput
-                      label="Country"
-                      id="i-country"
-                      name="country"
-                      value={newBillingAddr.country}
-                      onChange={handleChange(setNewBillingAddr)}
-                      required
-                    />
-                  </div>
-                )}
+                <GuestAddressSection
+                  title="Delivery Address"
+                  address={guestDeliveryAddr}
+                  onAddressChange={setGuestDeliveryAddr}
+                />
+
+                <GuestAddressSection
+                  title="Billing Address"
+                  address={guestBillingAddr}
+                  onAddressChange={setGuestBillingAddr}
+                  showSameAsDelivery={true}
+                  sameAsDelivery={guestSameAsDelivery}
+                  onSameAsDeliveryChange={setGuestSameAsDelivery}
+                />
+              </>
+            ) : (
+              // Authenticated User Checkout Form
+              <>
+                <ContactInformationSection
+                  contactInfo={contactInfo}
+                  setContactInfo={setContactInfo}
+                />
+
+                <AddressSection
+                  title="Delivery Address"
+                  addresses={addresses}
+                  selectedAddressId={selectedDeliveryId}
+                  onAddressSelect={setSelectedDeliveryId}
+                  newAddress={newDeliveryAddr}
+                  onAddressChange={setNewDeliveryAddr}
+                />
+
+                <AddressSection
+                  title="Billing Address"
+                  addresses={addresses}
+                  selectedAddressId={selectedBillingId}
+                  onAddressSelect={setSelectedBillingId}
+                  newAddress={newBillingAddr}
+                  onAddressChange={setNewBillingAddr}
+                  showSameAsDelivery={true}
+                  sameAsDelivery={sameAsDelivery}
+                  onSameAsDeliveryChange={setSameAsDelivery}
+                />
               </>
             )}
-          </div>
 
-          {/* Payment Method Section */}
-          <div className="space-y-2">
-            <label
-              htmlFor="paymentType"
-              className="text-base font-medium text-gray-700"
+            <PaymentMethodSection
+              paymentType={paymentType}
+              onPaymentTypeChange={setPaymentType}
+            />
+
+            {error && <p className="text-sm text-red-600">{error}</p>}
+
+            {/* Show validation message if contact info is incomplete (for authenticated users) */}
+            {!isGuestCheckout && !isContactInfoComplete(contactInfo) && (
+              <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-sm text-yellow-800">
+                  Please complete all required contact information fields before placing your order.
+                </p>
+              </div>
+            )}
+
+            <FormButton 
+              loading={placingOrder} 
+              loadingText="Placing Order..."
+              disabled={placingOrder}
             >
-              Payment Method
-            </label>
-            <select
-              id="paymentType"
-              name="paymentType"
-              value={paymentType}
-              onChange={(e) => setPaymentType(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-xs bg-offwhite focus:outline-none focus:ring-2 focus:ring-richblack"
-            >
-              <option value="CARD">Card</option>
-              <option value="CASH">Cash</option>
-              <option value="APPLE_PAY">Apple Pay</option>
-              <option value="GOOGLE_PAY">Google Pay</option>
-            </select>
-          </div>
-
-          {error && <p className="text-sm text-red-600">{error}</p>}
-
-          <FormButton loading={placingOrder} loadingText="Placing Order...">
-            Place Order
-          </FormButton>
-        </form>
+              Place Order
+            </FormButton>
+          </form>
+        </div>
 
         <div className="space-y-6">
           <CartTable entries={cart.entries} compact />

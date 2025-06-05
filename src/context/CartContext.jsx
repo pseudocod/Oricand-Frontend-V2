@@ -17,23 +17,20 @@ export function CartProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   const fetchCart = useCallback(async () => {
-    const { data } = await axios.get("/cart", { withCredentials: true });
-    setCart(data);
+    try {
+      const { data } = await axios.get("/cart", { withCredentials: true });
+      setCart(data);
+    } catch {
+      // If cart doesn't exist, create an empty one
+      setCart({ entries: [], totalPrice: 0 });
+    }
   }, []);
 
   const prevTokenRef = useRef(token);
 
   useEffect(() => {
-    const prevToken = prevTokenRef.current;
     prevTokenRef.current = token;
-
     setLoading(true);
-    if (!token && prevToken) {
-      setCart({ entries: [], totalPrice: 0 });
-      setLoading(false);
-      return;
-    }
-
     fetchCart().finally(() => setLoading(false));
   }, [fetchCart, token]);
 
@@ -65,7 +62,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ cart, loading, addToCart, updateQuantity, removeEntry }}
+      value={{ cart, loading, addToCart, updateQuantity, removeEntry, refreshCart: fetchCart }}
     >
       {children}
     </CartContext.Provider>
