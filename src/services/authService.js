@@ -22,3 +22,18 @@ export async function registerUser(userData) {
   });
   return response.data;
 }
+
+export async function forgotPassword(email) {
+  const response = await axios.post(`${API_URL}/api/auth/password/forgot`, {
+    email,
+  });
+  return response.data;
+}
+
+export async function resetPassword(token, newPassword) {
+  const response = await axios.post(`${API_URL}/api/auth/password/reset`, {
+    token,
+    newPassword,
+  });
+  return response.data;
+}

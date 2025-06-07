@@ -2,6 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ForgotPassword from "../pages/ForgotPassword";
+import ResetPassword from "../pages/ResetPassword";
 import Account from "../pages/Profile";
 import ProductAdmin from "../pages/admin/ProductAdmin";
 import AttributeOptionAdmin from "../pages/admin/AttributeOptionAdmin";
@@ -49,6 +51,22 @@ const router = createBrowserRouter([
         element: (
           <PageWrapper>
             <Register />
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/forgot-password",
+        element: (
+          <PageWrapper>
+            <ForgotPassword />
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/reset-password",
+        element: (
+          <PageWrapper>
+            <ResetPassword />
           </PageWrapper>
         ),
       },
