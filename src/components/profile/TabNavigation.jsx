@@ -21,6 +21,12 @@ export default function TabNavigation({ activeTab, setActiveTab }) {
       >
         Orders
       </TabButton>
+      <TabButton
+        isActive={activeTab === "security"}
+        onClick={() => setActiveTab("security")}
+      >
+        Security
+      </TabButton>
     </div>
   );
 } 

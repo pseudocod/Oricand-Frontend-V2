@@ -58,8 +58,8 @@ export default function MenuOverlay({ isOpen, onClose }) {
             )}
             {user ? (
               <button
-                onClick={() => {
-                  logout();
+                onClick={async () => {
+                  await logout();
                   onClose();
                 }}
                 className="text-lg font-light tracking-wide text-left hover:opacity-60 transition-opacity cursor-pointer"

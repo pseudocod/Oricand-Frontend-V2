@@ -21,7 +21,7 @@ export default function ActionButtons({ editing, handleEdit, handleSave, logout,
         </>
       )}
       <button
-        onClick={logout}
+        onClick={async () => await logout()}
         className="text-gray-700 text-lg hover:text-black underline underline-offset-4 decoration-[1px] cursor-pointer"
       >
         logout

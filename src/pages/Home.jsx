@@ -5,6 +5,7 @@ import Marquee from "../components/ui/Marquee";
 import PoeticLine from "../components/ui/PoeticLine";
 import { useCategories } from "../hooks/useCategories";
 import HighlightedProducts from "../components/product/HighlightedProducts";
+import OricandConcept from "../components/layout/HeroSection/OricandConcept";
 
 export default function Home() {
   const { categories, loading, error } = useCategories();
@@ -15,8 +16,9 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <Marquee />
-      <HighlightedProducts />
+      <OricandConcept />
+      {/* <Marquee />
+      <HighlightedProducts /> */}
 
       {categories.map((category) => (
         <div key={category.id}>

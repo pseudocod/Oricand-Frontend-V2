@@ -70,7 +70,7 @@ export default function ResetPassword() {
   if (!token) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center px-6">
-        <div className="w-full max-w-md flex flex-col items-center">
+        <div className="w-full max-w-lg flex flex-col items-center">
           <h1 className="text-5xl font-extralight tracking-wide text-gray-900 mb-12">
             INVALID LINK
           </h1>

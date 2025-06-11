@@ -23,6 +23,33 @@ export async function registerUser(userData) {
   return response.data;
 }
 
+export async function refreshToken(refreshToken) {
+  if (!refreshToken) {
+    throw new Error('Refresh token is required');
+  }
+  
+  const response = await axios.post(`${API_URL}/auth/refresh`, {
+    refreshToken,
+  });
+  return response.data;
+}
+
+export async function logoutUser(refreshToken) {
+  if (!refreshToken) {
+    return { success: true };
+  }
+  
+  const response = await axios.post(`${API_URL}/auth/logout`, {
+    refreshToken,
+  });
+  return response.data;
+}
+
+export async function logoutAllDevices() {
+  const response = await axios.post(`${API_URL}/auth/logout-all`);
+  return response.data;
+}
+
 export async function forgotPassword(email) {
   const response = await axios.post(`${API_URL}/api/auth/password/forgot`, {
     email,

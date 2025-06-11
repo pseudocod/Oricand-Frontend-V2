@@ -29,12 +29,12 @@ export default function ForgotPassword() {
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-6">
-      <div className="w-full max-w-md flex flex-col items-center">
+      <div className="w-full max-w-xl flex flex-col items-center">
         <h1 className="text-5xl font-extralight tracking-wide text-gray-900 mb-12">
           FORGOT PASSWORD
         </h1>
 
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-lg">
           <form onSubmit={handleSubmit} className="space-y-6">
             <FormInput
               label="Email address"
@@ -54,7 +54,6 @@ export default function ForgotPassword() {
               SEND RESET INSTRUCTIONS
             </FormButton>
           </form>
-
           <div className="text-center mt-6">
             <Link
               to="/login"

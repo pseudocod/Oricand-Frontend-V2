@@ -5,11 +5,12 @@ export const getCurrentUser = async () => {
   return res.data;
 };
 
-export const updateCurrentUser = async (updateData) => {
-  const res = await axios.put("/users/me", updateData);
+export const updateCurrentUser = async (data) => {
+  const res = await axios.put("/users/me", data);
   return res.data;
 };
 
-export const changePassword = async (passwordData) => {
-  await axios.put("/users/me/password", passwordData);
+export const changePassword = async (data) => {
+  const res = await axios.put("/users/me/password", data);
+  return res.data;
 };
