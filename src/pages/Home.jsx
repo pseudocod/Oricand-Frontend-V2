@@ -20,7 +20,7 @@ export default function Home() {
       {/* <Marquee />
       <HighlightedProducts /> */}
 
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <div key={category.id}>
           <DropThemeScene category={category} />
           <PoeticLine />

@@ -8,6 +8,7 @@ import ProfileContent from "../components/profile/ProfileContent";
 import AddressContent from "../components/profile/AddressContent";
 import OrderContent from "../components/profile/OrderContent";
 import SecurityContent from "../components/profile/SecurityContent";
+import LoyaltyContent from "../components/profile/LoyaltyContent";
 import ProfileHeader from "../components/profile/ProfileHeader";
 import TabNavigation from "../components/profile/TabNavigation";
 import ActionButtons from "../components/profile/ActionButtons";
@@ -87,6 +88,9 @@ export default function Profile() {
               )}
               {activeTab === "orders" && (
                 <OrderContent orders={orders} loading={ordersLoading} loadOrders={loadOrders} />
+              )}
+              {activeTab === "loyalty" && (
+                <LoyaltyContent />
               )}
               {activeTab === "security" && (
                 <SecurityContent user={user} />

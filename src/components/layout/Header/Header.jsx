@@ -14,7 +14,7 @@ export default function Header() {
   const { isOpen: isCartOpen, openCart, closeCart } = useCartUI();
   const location = useLocation();
   const { cart } = useCart();
-  const itemCount = cart.entries.reduce((n, e) => n + e.quantity, 0);
+  const itemCount = cart?.entries?.reduce((n, e) => n + e.quantity, 0);
 
   useEffect(() => {
     const closeOnEscape = (e) => {

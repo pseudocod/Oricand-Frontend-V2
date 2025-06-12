@@ -10,7 +10,14 @@ export const useCategories = () => {
         const loadCategories = async () => {
             try {
                 const data = await fetchAllCategories();
-                setCategories(data);
+                console.log('Categories API response:', data);
+                // Ensure data is an array before setting it
+                if (Array.isArray(data)) {
+                    setCategories(data);
+                } else {
+                    console.error('Categories data is not an array:', data);
+                    setError('Invalid categories data format');
+                }
                 setLoading(false);
             } catch (err) {
                 console.error('Failed to load categories:', err);
