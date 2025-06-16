@@ -1,22 +1,16 @@
 import { useParams } from "react-router-dom";
 import { useProductsByCategory } from "../hooks/useProductsByCategory";
 import { useCategory } from "../hooks/useCategory";
-import { useScroll, useTransform } from "framer-motion";
 import { themeConfig } from "../config/themeConfig";
-import CategoryHero from "../components/category/CategoryHero";
-import CategoryDescription from "../components/category/CategoryDescription";
+import CategoryVisualIntro from "../components/category/CategoryVisualIntro";
 import ProductsGrid from "../components/product/ProductsGrid";
+import ProductDescription from "../components/product/ProductDescription";
 
 export default function CategoryProducts() {
   const { categoryId } = useParams();
   const { products, loading: productsLoading } =
     useProductsByCategory(categoryId);
   const { category, loading: categoryLoading } = useCategory(categoryId);
-  const { scrollY } = useScroll();
-
-  const heroScale = useTransform(scrollY, [0, 500], [1.1, 1]);
-  const heroOpacity = useTransform(scrollY, [0, 300], [1, 0]);
-  const titleY = useTransform(scrollY, [0, 500], [0, 150]);
 
   if (productsLoading || categoryLoading) {
     return (
@@ -32,15 +26,8 @@ export default function CategoryProducts() {
 
   return (
     <div className={`min-h-screen bg-offwhite ${theme.gradient}`}>
-      <CategoryHero
-        category={category}
-        heroScale={heroScale}
-        heroOpacity={heroOpacity}
-        titleY={titleY}
-        theme={theme}
-      />
-
-      <CategoryDescription description={category.description} theme={theme} />
+      <CategoryVisualIntro category={category} />
+      <ProductDescription descriptionLines={category.description.split("\n")} />
       <ProductsGrid products={products} categoryName={category.name} />
     </div>
   );

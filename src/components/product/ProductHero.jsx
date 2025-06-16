@@ -20,7 +20,7 @@ export default function ProductHero({
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.15, duration: 0.9 }}
-            className="bg-offwhite py-6 rounded-md order-2 md:order-1 w-full md:w-1/2 flex justify-center"
+            className="bg-offwhite py-6 rounded-md order-2 md:order-1 w-full md:w-1/2 flex justify-center px-2"
           >
             <div className="w-full max-w-lg pl-6 space-y-10">
               <h1 className="text-[clamp(1.8rem,3vw,2.5rem)] font-semibold text-richblack uppercase tracking-[0.05em] leading-none break-words">

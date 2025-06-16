@@ -39,7 +39,7 @@ export default function DropThemeScene({ category }) {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className={`absolute top-10 left-10 text-sm uppercase tracking-widest text-${theme.textColor} z-20`}
       >
-        {category.name}
+        {category.label}
       </motion.div>
 
       <div className="relative z-30 h-full flex flex-col justify-center items-center px-6 text-center">
@@ -47,9 +47,9 @@ export default function DropThemeScene({ category }) {
           initial={{ opacity: 0, scale: 1.05 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.4, ease: "easeOut" }}
-          className={`${theme.font} text-3xl md:text-5xl text-${theme.textColor} leading-tight`}
+          className={`${theme.font} text-5xl md:text-8xl text-${theme.textColor} leading-tight`}
         >
-          {category.phrase}
+          {category.name}
         </motion.h2>
 
         <motion.div
@@ -60,7 +60,7 @@ export default function DropThemeScene({ category }) {
         >
           <Link
             to={`/categories/${category.id}`}
-            className="inline-block border border-offwhite text-offwhite px-6 py-2 uppercase tracking-wide text-sm hover:bg-offwhite hover:text-richblack transition-all duration-300"
+            className="inline-block border border-offwhite text-offwhite md:px-6 md:py-2 px-3 py-1  uppercase tracking-wide text-sm hover:bg-offwhite hover:text-richblack transition-all duration-300"
           >
             {theme.ctaText}
           </Link>

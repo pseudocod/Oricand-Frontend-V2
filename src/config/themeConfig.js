@@ -5,18 +5,16 @@ export const themeConfig = {
     ctaText: "REGISTER NOW FOR ACCESS",
     ctaHref: "/register",
     bg: "bg-black",
-    gradient: "bg-gradient-to-br from-[#1f1f1f] via-[#2d2d2d] to-[#111]",
   },
   "the-pitch-drop": {
     textColor: "white",
     font: "font-bebas",
-    ctaText: "Explore Drop", // fallback or set your own
-    ctaHref: "/the-pitch-drop", // optional
-    // gradient: "bg-gradient-to-br from-[#fdfcfb] via-[#e0f7fa] to-[#e3f2fd]",
+    ctaText: "Explore Drop", 
+    ctaHref: "/the-pitch-drop",
     bg: "bg-black",
   },
   default: {
-    textColor: "black",
+    textColor: "white",
     font: "font-montserrat",
     ctaText: "Explore Drop",
     ctaHref: "#",

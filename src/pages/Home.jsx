@@ -6,6 +6,7 @@ import PoeticLine from "../components/ui/PoeticLine";
 import { useCategories } from "../hooks/useCategories";
 import HighlightedProducts from "../components/product/HighlightedProducts";
 import OricandConcept from "../components/layout/HeroSection/OricandConcept";
+import MissionSection from "../components/layout/HeroSection/MissionSection";
 
 export default function Home() {
   const { categories, loading, error } = useCategories();
@@ -16,16 +17,20 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <OricandConcept />
-      {/* <Marquee />
-      <HighlightedProducts /> */}
-
-      {categories?.map((category) => (
+      <Marquee />
+      <HighlightedProducts />
+      {categories?.map((category, index) => (
         <div key={category.id}>
           <DropThemeScene category={category} />
-          <PoeticLine />
+          {index === 0 && (
+            <div className="my-16 md:my-24">
+              <MissionSection />
+            </div>
+          )}
+          {index === categories.length - 2 && <OricandConcept />}
         </div>
       ))}
+      <PoeticLine />    
     </>
   );
 }

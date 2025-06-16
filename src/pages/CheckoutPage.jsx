@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBagIcon } from "@heroicons/react/24/outline";
 import { useCart } from "../context/CartContext";
 import { useAddresses } from "../hooks/useAddresses";
+import { useLoyaltyCard } from "../hooks/useLoyaltyCard";
 import useCheckout from "../hooks/useCheckout";
 import useCheckoutValidation from "../hooks/useCheckoutValidation";
 import FormButton from "../components/common/Button/FormButton";
@@ -14,11 +15,13 @@ import GuestAddressSection from "../components/checkout/GuestAddressSection";
 import GuestInformationSection from "../components/checkout/GuestInformationSection";
 import CheckoutModeSelector from "../components/checkout/CheckoutModeSelector";
 import PaymentMethodSection from "../components/checkout/PaymentMethodSection";
+import LoyaltyDiscountInfo from "../components/checkout/LoyaltyDiscountInfo";
 import { useAuth } from "../context/UserContext";
 
 export default function CheckoutPage() {
   const { user } = useAuth();
   const { cart, loading: cartLoading, refreshCart } = useCart();
+  const { loyaltyData } = useLoyaltyCard();
   const { checkout, loading: placingOrder, error, isAuthenticated } = useCheckout();
   const { addresses, loading: addressesLoading } = useAddresses(!!user); // Only fetch if user exists
   const { validateContactInfo, isContactInfoComplete } = useCheckoutValidation();
@@ -260,10 +263,15 @@ export default function CheckoutPage() {
 
   const itemCount = cart.entries.reduce((n, e) => n + e.quantity, 0);
 
+  // Calculate discount for authenticated users with loyalty cards
+  const discountPercentage = isAuthenticated && loyaltyData ? loyaltyData.discountPercentage : 0;
+  const discountAmount = (cart.totalPrice * discountPercentage) / 100;
+  const finalTotal = cart.totalPrice - discountAmount;
+
   return (
     <section className="px-6 max-w-6xl mx-auto py-16 space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-4xl uppercase font-light">Checkout</h1>
+        <h1 className="text-5xl uppercase font-semibold">CHECKOUT</h1>
         <Link to="/cart" className="relative group">
           <ShoppingBagIcon className="w-8 h-8" />
           {itemCount > 0 && (
@@ -283,7 +291,7 @@ export default function CheckoutPage() {
             isAuthenticated={isAuthenticated}
           />
 
-          <form onSubmit={handleSubmit} className="space-y-8 bg-stone p-4 rounded-lg">
+          <form onSubmit={handleSubmit} className="space-y-8 bg-white p-6 rounded-lg shadow-sm border">
             {isGuestCheckout ? (
               // Guest Checkout Form
               <>
@@ -343,6 +351,12 @@ export default function CheckoutPage() {
               onPaymentTypeChange={setPaymentType}
             />
 
+            {/* Loyalty Program Information */}
+            <LoyaltyDiscountInfo 
+              loyaltyData={loyaltyData} 
+              isAuthenticated={isAuthenticated && !isGuestCheckout} 
+            />
+
             {error && <p className="text-sm text-red-600">{error}</p>}
 
             {/* Show validation message if contact info is incomplete (for authenticated users) */}
@@ -365,10 +379,43 @@ export default function CheckoutPage() {
         </div>
 
         <div className="space-y-6">
-          <CartTable entries={cart.entries} compact />
-          <div className="flex justify-end text-xl">
-            <span className="font-light mr-4">Total</span>
-            <span className="font-medium">{cart.totalPrice} lei</span>
+          <div className="sticky top-4 bg-white rounded-lg shadow-sm border p-6">
+            <h3 className="text-lg font-medium mb-4">Order Summary</h3>
+            <CartTable entries={cart.entries} compact />
+            
+            {/* Order Summary */}
+            <div className="space-y-2 mt-6 pt-4 border-t border-gray-200">
+              <div className="flex justify-between text-lg">
+                <span className="font-light">Subtotal</span>
+                <span>{cart.totalPrice} lei</span>
+              </div>
+              
+              {discountPercentage > 0 && (
+                <>
+                  <div className="flex justify-between text-lg text-green-600">
+                    <span className="font-light">
+                      Loyalty Discount ({discountPercentage}%)
+                    </span>
+                    <span>-{Math.round(discountAmount)} lei</span>
+                  </div>
+                  <div className="border-t border-gray-200 pt-2 mt-2">
+                    <div className="flex justify-between text-xl font-medium">
+                      <span>Total</span>
+                      <span>{Math.round(finalTotal)} lei</span>
+                    </div>
+                  </div>
+                </>
+              )}
+              
+              {discountPercentage === 0 && (
+                <div className="border-t border-gray-200 pt-2 mt-2">
+                  <div className="flex justify-between text-xl font-medium">
+                    <span>Total</span>
+                    <span>{cart.totalPrice} lei</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

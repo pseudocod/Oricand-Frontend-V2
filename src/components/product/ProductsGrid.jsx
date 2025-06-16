@@ -2,6 +2,13 @@ import { motion } from "framer-motion";
 import ProductBoxPresentation from "../product/ProductBoxPresentation";
 
 export default function ProductsGrid({ products, categoryName }) {
+  if (products.length === 0) {
+    return (
+      <div className="px-6 md:px-12 pb-32">
+        <p className="text-center text-9xl font-bold">COMING SOON</p>
+      </div>
+    );
+  }
   return (
     <div className="px-6 md:px-12 pb-32">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-32 gap-x-6 md:gap-x-12">

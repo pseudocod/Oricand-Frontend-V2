@@ -23,6 +23,8 @@ import RootLayout from "../components/layout/RootLayout";
 import CartPage from "../pages/CartPage";
 import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
+import AboutPage from "../pages/AboutPage";
+import VotingPage from "../pages/VotingPage";
 
 
 const router = createBrowserRouter([
@@ -125,6 +127,24 @@ const router = createBrowserRouter([
         element: (
           <PageWrapper>
             <CheckoutPage />
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/about",
+        element: (
+          <PageWrapper>
+            <AboutPage />
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/vote",
+        element: (
+          <PageWrapper>
+            <ProtectedRoute>
+              <VotingPage />
+            </ProtectedRoute>
           </PageWrapper>
         ),
       },
