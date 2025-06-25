@@ -21,7 +21,6 @@ export function CartProvider({ children }) {
       const { data } = await axios.get("/cart", { withCredentials: true });
       setCart(data);
     } catch {
-      // If cart doesn't exist, create an empty one
       setCart({ entries: [], totalPrice: 0 });
     }
   }, []);

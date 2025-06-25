@@ -21,7 +21,7 @@ export const useAddresses = (shouldFetch = true) => {
       setLoading(false);
       return;
     }
-    
+
     try {
       const data = await getCurrentUserAddresses();
       setAddresses(data);
@@ -68,7 +68,6 @@ export const useAddresses = (shouldFetch = true) => {
       await deleteAddress(id);
       setAddresses((prev) => prev.filter((addr) => addr.id !== id));
       toast.success("Address deleted successfully");
-      // Refresh user data in case we deleted a default address
       await refreshUser();
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to delete address");
@@ -79,10 +78,12 @@ export const useAddresses = (shouldFetch = true) => {
   const handleSetDefaultDelivery = async (addressId) => {
     try {
       await setDefaultDeliveryAddress(addressId);
-      await refreshUser(); // Refresh user data to get updated default address
+      await refreshUser();
       toast.success("Default delivery address updated");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to set default delivery address");
+      toast.error(
+        err.response?.data?.message || "Failed to set default delivery address"
+      );
       throw err;
     }
   };
@@ -90,10 +91,12 @@ export const useAddresses = (shouldFetch = true) => {
   const handleSetDefaultBilling = async (addressId) => {
     try {
       await setDefaultBillingAddress(addressId);
-      await refreshUser(); // Refresh user data to get updated default address
+      await refreshUser();
       toast.success("Default billing address updated");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to set default billing address");
+      toast.error(
+        err.response?.data?.message || "Failed to set default billing address"
+      );
       throw err;
     }
   };

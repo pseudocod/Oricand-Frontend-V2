@@ -64,14 +64,12 @@ export default function CategoryAdmin() {
     }
   };
 
-  // Calculate stats
   const stats = {
     total: categories.length,
   };
 
   return (
     <div className="p-6 space-y-6">
-      {/* Header */}
       <div className="flex flex-col items-center justify-between">
         <h1 className="text-4xl font-light text-gray-900">
           CATEGORY MANAGEMENT
@@ -79,7 +77,6 @@ export default function CategoryAdmin() {
         <p className="text-gray-600">Define drops and thematic collections</p>
       </div>
 
-      {/* Stats Cards */}
       <div className="flex justify-center">
         <div className="bg-white p-4 border border-gray-200 rounded-lg w-full max-w-sm">
           <div className="flex items-center justify-between">
@@ -106,7 +103,6 @@ export default function CategoryAdmin() {
         </div>
       </div>
 
-      {/* Add/Edit Form */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <CategoryForm
           onSubmit={handleCreateOrUpdate}
@@ -115,7 +111,6 @@ export default function CategoryAdmin() {
         />
       </div>
 
-      {/* Categories List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">All Categories</h2>

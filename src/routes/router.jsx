@@ -25,6 +25,7 @@ import CheckoutPage from "../pages/CheckoutPage";
 import OrderConfirmationPage from "../pages/OrderConfirmationPage";
 import AboutPage from "../pages/AboutPage";
 import VotingPage from "../pages/VotingPage";
+import VotingAdmin from "../pages/admin/VotingAdmin";
 
 
 const router = createBrowserRouter([
@@ -214,6 +215,16 @@ const router = createBrowserRouter([
           <PageWrapper>
             <AdminRoute>
               <CategoryAdmin />
+            </AdminRoute>
+          </PageWrapper>
+        ),
+      },
+      {
+        path: "/admin/voting",
+        element: (
+          <PageWrapper>
+            <AdminRoute>
+              <VotingAdmin />
             </AdminRoute>
           </PageWrapper>
         ),

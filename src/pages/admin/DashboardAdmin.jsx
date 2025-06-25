@@ -37,6 +37,12 @@ const adminPages = [
     emoji: "✅",
     description: "Assign options to products",
   },
+  {
+    name: "Voting Management",
+    path: "/admin/voting",
+    emoji: "🗳️",
+    description: "Manage voting campaigns and analyze results",
+  },
 ];
 
 export default function DashboardAdmin() {
@@ -55,7 +61,7 @@ export default function DashboardAdmin() {
         <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Overview</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="text-center p-4 bg-gray-50 rounded-lg">
-            <div className="text-2xl font-bold text-gray-900">6</div>
+            <div className="text-2xl font-bold text-gray-900">7</div>
             <div className="text-sm text-gray-600">Admin Modules</div>
           </div>
           <div className="text-center p-4 bg-gray-50 rounded-lg">

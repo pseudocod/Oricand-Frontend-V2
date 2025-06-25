@@ -186,7 +186,6 @@ export default function ProductAdmin() {
         </div>
       </div>
 
-      {/* Add/Edit Form */}
       <div className="bg-white border border-gray-200 rounded-lg p-6">
         <ProductForm
           onSubmit={handleSubmit}
@@ -195,7 +194,6 @@ export default function ProductAdmin() {
         />
       </div>
 
-      {/* Products List */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-gray-900">All Products</h2>

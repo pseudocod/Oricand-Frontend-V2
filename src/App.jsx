@@ -3,7 +3,6 @@ import { Toaster } from "react-hot-toast";
 import Lenis from "lenis";
 import { useEffect } from "react";
 import router from "./routes/router";
-
 function App() {
   useEffect(() => {
     const lenis = new Lenis({
@@ -38,5 +37,3 @@ function App() {
 }
 
 export default App;
-
-

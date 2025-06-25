@@ -12,13 +12,11 @@ export default function MobileHeader({ isOpen, onMenuToggle, onCartOpen }) {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[60] md:hidden">
-      {/* Top Bar with Shipping Info */}
       <div className="px-4 py-2 text-[10px] text-center bg-black text-white font-light tracking-wide">
         <span className="font-medium">Free Shipping:</span> Bucharest 100 RON+ ·
         Romania 150 RON+ · EU 250 RON+
       </div>
 
-      {/* Main Header Bar */}
       <div className="bg-white border-b border-neutral-200">
         <div className="px-6 h-16 flex items-center justify-between">
           <Link

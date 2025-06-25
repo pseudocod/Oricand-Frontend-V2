@@ -24,7 +24,7 @@ export default function OrderContent({ orders, loading, loadOrders }) {
   };
 
   const handleOrderUpdate = () => {
-    loadOrders(); // Refresh the orders list
+    loadOrders(); 
   };
 
   if (loading) {
@@ -37,7 +37,6 @@ export default function OrderContent({ orders, loading, loadOrders }) {
 
   return (
     <div className="space-y-4">
-      {/* Status Filter */}
       {orders && orders.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {statuses.map((status) => (

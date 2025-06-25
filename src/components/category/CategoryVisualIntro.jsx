@@ -13,10 +13,10 @@ export default function CategoryVisualIntro({ category }) {
         <div className="absolute inset-0 bg-black/40 z-10" />
 
         <div className="absolute top-6 left-6 md:left-12 z-20">
-  <p className="text-white hidden md:block md:text-3xl lg:text-5xl font-bold tracking-widest drop-shadow-2xl">
-    ORICÂND
-  </p>
-</div>
+          <p className="text-white hidden md:block md:text-3xl lg:text-5xl font-bold tracking-widest drop-shadow-2xl">
+            ORICÂND
+          </p>
+        </div>
         <div className="absolute z-20 top-24 left-6 md:top-40 md:left-12 max-w-xl">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -29,18 +29,16 @@ export default function CategoryVisualIntro({ category }) {
               wordBreak: "break-word",
             }}
           >
-           {category.label}
+            {category.label}
           </motion.h1>
         </div>
 
-        {/* Description Block on the right */}
         <div className="absolute z-20 bottom-1/3 right-8 max-w-lg text-left px-2">
           <p className="text-white text-lg md:text-2xl font-bold leading-tight">
             {category.phrase}
           </p>
         </div>
 
-        {/* Secondary Headline at the bottom right */}
         <div className="absolute z-20 bottom-12 right-8 text-left">
           <h2 className="text-white text-4xl md:text-9xl font-bold uppercase drop-shadow-2xl">
             {category.name}

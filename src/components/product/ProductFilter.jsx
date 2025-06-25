@@ -15,7 +15,6 @@ export default function ProductFilter({
 
   return (
     <div className="flex flex-col gap-6 w-full max-w-[300px]">
-      {/* Category Filter */}
       <div className="space-y-2">
         <div className="h-[1px] bg-white/50"></div>
         <div className="relative">
@@ -42,7 +41,6 @@ export default function ProductFilter({
         <div className="h-[1px] bg-white/50"></div>
       </div>
 
-      {/* Sort Options */}
       <div className="space-y-2">
         <div className="h-[1px] bg-white/50"></div>
         <div className="relative">

@@ -14,7 +14,6 @@ export default function RootLayout() {
       <AnimatePresence mode="wait">
         <Outlet />
       </AnimatePresence>
-      
       <Footer />
     </div>
   );
